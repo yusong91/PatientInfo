@@ -20,15 +20,7 @@
     "Age": "Age",
     "Positive_date": "Positive Date",
     "Variant":"Variant",
-    "Job":"Career"
-
-
-
-
-
-
-
-
+    "Job":"Career",
 
     "# of users with this role": "broj korisnika sa ovom ulogom",
     "2FA Token is invalid!": "2FA token nije validan!",
