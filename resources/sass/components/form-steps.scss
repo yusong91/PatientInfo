@@ -1,0 +1,66 @@
+.form-steps {
+	justify-content: space-between;
+	position: relative;
+	.line {
+		height: 2px;
+		width: 80%;
+		display: block;
+		background-color: #E0E0E0;
+		top: 33px;
+		right: 0;
+		left: 0;
+		margin-left: auto;
+		margin-right: auto;
+		position: absolute;
+	}
+	.breadcrumb-item {
+		flex: 1;
+		text-align: center;
+		color: #A7A7A7;
+		position: static;
+    z-index: 99;
+		span {
+			width: 65px;
+			height: 65px;
+			background-color: #fff;
+			border: 3px solid #E0E0E0;
+			border-radius: 50%;
+			display: grid;
+			place-content: center;
+			font-size: 30px;
+			color: #E0E0E0;
+			font-weight: 700;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 1rem;
+		}
+		&.active {
+			color: $primary;
+			span {
+				background-color: $primary;
+				border-color: $primary;
+				color: #fff;
+			}
+		}
+		&::before {
+			content: none;
+		}
+		+ .breadcrumb-item {
+			padding-left: 0;
+		}
+	}
+}
+fieldset {
+	border: 1px solid #DEE2E6;
+	border-radius: 5px;
+	padding: 15px;
+	legend {
+		width: auto;
+		display: inline;
+		padding: 5px 10px;
+		background-color: #fff;
+		font-size: 15px;
+		font-weight: 700;
+		margin-bottom: 0;
+	}
+}

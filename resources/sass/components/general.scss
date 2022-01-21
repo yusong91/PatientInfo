@@ -1,0 +1,19 @@
+[role="main"] {
+  margin-top: 95px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.content-page {
+     margin-left: 250px;
+     overflow: hidden;
+     width: 100%;
+ }
+
+.sidebar-collapsed .content-page {
+    margin-left: 80px;
+}
+
+label {
+  font-weight: 500;
+}

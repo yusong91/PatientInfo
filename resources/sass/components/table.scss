@@ -1,0 +1,29 @@
+.table thead th {
+  color: $gray-700;
+}
+.table {
+  thead th,
+  tbody td {
+    vertical-align: middle;
+  }
+  .thead-dark th {
+    border-bottom-color: $primary;
+  }
+  .btn:focus {
+    box-shadow: none;
+  }
+}
+
+.table-striped {
+  thead tr {
+    background-color: #F3F3F3;
+  }
+  tr {
+    &:nth-child(even) {
+      background-color: #F3F3F3;
+    }
+    td:first-of-type { border-radius: 5px 0 0 5px; }
+    td:last-of-type { border-radius: 0 5px 5px 0; }
+    
+  }
+}
