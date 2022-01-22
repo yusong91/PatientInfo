@@ -14,7 +14,7 @@
 		</ol>
 	</nav>
 
-	<form action="{{ route('patients.store') }}" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+	<form action="{{ route('patients.store') }}" method="post" enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="off">
 		<fieldset>
 			<legend>@lang('hospital')</legend>
 			<div class="row">
