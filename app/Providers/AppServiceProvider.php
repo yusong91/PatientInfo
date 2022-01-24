@@ -78,7 +78,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PatientFamilyRepository::class, EloquentPatientFamily::class);
         $this->app->singleton(PatientTravelHistoryRepository::class, EloquentPatientTravelHistory::class);
 
-        
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

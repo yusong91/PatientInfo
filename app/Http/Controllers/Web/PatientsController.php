@@ -17,6 +17,7 @@ use Vanguard\Model\ExcelPatient;
 use PDF;
 use Vanguard\User;
 use DB;
+use Illuminate\Support\Facades\Cache;
 
 class PatientsController extends Controller
 {
@@ -53,11 +54,10 @@ class PatientsController extends Controller
 		$raw_paginate = json_encode($patients);
         $paginate = json_decode($raw_paginate);
 		return view('patients.index',compact('patients', 'paginate'));
-	}
+	} 
  
 	public function create()
 	{
-
         $this->health_facility = CommonCode::commonCode('health_facility')->first()->children;
         $this->reason_testing = CommonCode::commonCode('reason_testing')->first()->children;
         $this->clinical_symptom = CommonCode::commonCode('clinical_symptom')->first()->children;
@@ -72,8 +72,19 @@ class PatientsController extends Controller
         $this->related_patient = CommonCode::commonCode('related_patient')->first()->children;
         $this->variant = CommonCode::commonCode('variant')->first()->children;
         $this->provinces = getLocationCode('province');
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;//CommonCode::commonCode('vaccination')->get();
+
+        //Cache::forget('key');
+
+        $key_input = Cache::get("old_data");
+
+        if($key_input == null){
+            $key_input = ['laboratory_name'=>null, 'health_facility'=>null, 'health_facility_date'=>null, 'form_writer_name'=>null, 'form_writer_phone'=>null, 'gender'=>null, 'positive_date'=>null, 'province'=>null, 'district'=>null, 'commune'=>null, 'village'=>null, 'was_positive'=>null, 'labform_province'=>null, 'laboratory_id'=>null, 'laboratory_date'=>null, 'number_sample_id'=>null, 'object_types_id'=>null, 'laboratory_collector'=>null, 'laboratory_collector_phone'=>null];
+        } 
 
 		return view('patients.create',[
+            'vaccination_list'=>$vaccination_list,
+            'key_input'=>$key_input,
             'health_facility'=>$this->health_facility,
             'reason_testing'=>$this->reason_testing,
             'clinical_symptom'=>$this->clinical_symptom,
@@ -90,11 +101,12 @@ class PatientsController extends Controller
             'provinces'=>$this->provinces,
             'districts'=>$this->districts
         ]); 
-
 	}
    
 	public function store(CreatePatientRequest $request)
 	{   
+        //dd($request->all());
+
         $key = ['name'=>$request->input('name'), 'phone'=>$request->input('phone'), 'gender'=>$request->input('gender')];
         
         $duplicate = $this->patient->checkDuplicate($key);
@@ -104,12 +116,38 @@ class PatientsController extends Controller
             return redirect(route('patients'))->withSuccess("ទិន្នន័យស្ទួន!");
         }
 
+        $health_facility = $request->health_facility_id;
+        $health_facility_date = $request->form_date;
+        $form_writer_name = $request->form_writer_name;
+        $form_writer_phone = $request->form_writer_phone;
+        $gender = $request->gender;
+        $positive_date = $request->positive_date; 
+        $province = $request->province;
+        $district = $request->district;
+        $commune = $request->commune;
+        $village = $request->village;
+        $was_positive = $request->was_positive;
+        $labform_province = $request->labform_province;
+        $laboratory_name = $request->laboratory_name;
+        $laboratory_date = $request->laboratory_date;
+        $laboratory_id = $request->laboratory_id;
+        $number_sample_id = $request->number_sample_id;
+        $object_types_id = $request->object_types_id;
+        $laboratory_collector = $request->laboratory_collector;
+        $laboratory_collector_phone = $request->laboratory_collector_phone;
+
+        $key_input = ['health_facility'=>$health_facility, 'health_facility_date'=>$health_facility_date, 'form_writer_name'=>$form_writer_name, 'form_writer_phone'=>$form_writer_phone, 'gender'=>$gender, 'positive_date'=>$positive_date, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'was_positive'=>$was_positive, 'labform_province'=>$labform_province, 'laboratory_name'=>$laboratory_name, 'laboratory_id'=>$laboratory_id, 'laboratory_date'=>$laboratory_date, 'number_sample_id'=>$number_sample_id, 'object_types_id'=>$object_types_id, 'laboratory_collector'=>$laboratory_collector, 'laboratory_collector_phone'=>$laboratory_collector_phone];
+         
+        Cache::put('old_data', $key_input, now()->addMinutes(10));
+
         $patient = $this->patient->create($request->all());
+
         if($patient){
-            return redirect(route('patients'))->withSuccess("បង្កើតបានជោគជ័យ");
+            
+            return redirect(route('patients.create'))->withSuccess("បង្កើតបានជោគជ័យ");
         }
 	} 
-
+ 
     public function edit($id)
     {
         $edit = $this->patient->find($id);
@@ -127,17 +165,12 @@ class PatientsController extends Controller
         $nation = getConmunCode('nation');
         $related_patient = getConmunCode('related_patient');
         $variant = getConmunCode('variant');
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);
 
-        return view('patients.edit', compact('edit','health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
-    }
- 
-    public function delete($id)
-    {
-        $status = $this->patient->delete($id);
-        if($status)
-        {
-            return redirect('patients')->withSuccess(__('ការលុបបានជោគជ័យ'));
-        }
+        //dd([$vaccination_list, $patient_vaccine]);
+
+        return view('patients.edit', compact('edit', 'patient_vaccine', 'vaccination_list','health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
     public function update(CreatePatientRequest $request)
@@ -146,6 +179,15 @@ class PatientsController extends Controller
         if($patient)
         {
             return redirect(route('patients'))->withSuccess("កែប្រែបានជោគជ័យ");
+        }
+    }
+ 
+    public function delete($id)
+    {
+        $status = $this->patient->delete($id);
+        if($status)
+        {
+            return redirect('patients')->withSuccess(__('ការលុបបានជោគជ័យ'));
         }
     }
 
@@ -221,7 +263,6 @@ class PatientsController extends Controller
  
     public function approveFullInterivew($patient_id)
     {   
-
         $interviewStatusList = getConmunCode('status_interview');
 
         $patient = Patient::where('id',$patient_id)->with([

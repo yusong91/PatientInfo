@@ -42,12 +42,12 @@ class Settings extends Plugin
             ->icon('fas fa-cogs')
             ->permissions(['settings.general', 'settings.auth', 'settings.notifications'])
             ->addChildren([
-                $general,
+                $general, 
                 $authAndRegistration,
                 $notifications,
                 $place,
                 $commonCode
             ]);
-        
+
     }
 }

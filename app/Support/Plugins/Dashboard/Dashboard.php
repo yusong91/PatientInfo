@@ -9,9 +9,9 @@ class Dashboard extends Plugin
 {
     public function sidebar()
     {
-        return Item::create(__(\Lang::get('Dashboard')))
-            ->route('report')
-            ->icon('fas fa-chart-line')
-            ->active("report");
+        // return Item::create(__(\Lang::get('Dashboard')))
+        //     ->route('report')
+        //     ->icon('fas fa-chart-line')
+        //     ->active("report");
     }
 }

@@ -7,10 +7,11 @@
             @endforeach
                 @permission('settings.all')
                     <li class="nav-item">
-                    <a class="nav-link" href="#setting" data-toggle="collapse" aria-expanded="false">
-                            <i class="fas fa-cogs"></i>
-                        <span>{{ __(\Lang::get('Setting')) }}</span>
-                    </a>
+                        
+                        <a class="nav-link" href="#setting" data-toggle="collapse" aria-expanded="false">
+                                <i class="fas fa-cogs"></i>
+                            <span>{{ __(\Lang::get('Setting')) }}</span>
+                        </a>
 
                         <ul class="collapse list-unstyled sub-menu" id="setting">
                             @permission('settings.general')
@@ -164,6 +165,13 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ url()->current()==route('common-codes.show',['id'=>293]) ? 'active' : '' }}" href="{{route('common-codes.show',['id'=>293])}}">
                                     <span>@lang('PatientAs')</span>
+                                </a>
+                            </li>
+                            @endpermission
+                            @permission('number_vaccine.index')
+                            <li class="nav-item">
+                                <a class="nav-link {{ url()->current()==route('common-codes.show',['id'=>333]) ? 'active' : '' }}" href="{{route('common-codes.show',['id'=>333])}}">
+                                    <span>@lang('Number_vaccine')</span>
                                 </a>
                             </li>
                             @endpermission

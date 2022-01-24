@@ -10,6 +10,13 @@ if(!function_exists('getConmunCode')){
     }
 }
 
+if(!function_exists('getPatientVaccine')){
+    function getPatientVaccine($patient_id){
+        $patient_vaccine = \Vanguard\Vaccine::where('patient_id',$patient_id)->get();
+        return $patient_vaccine;
+    }
+}
+
 if(!function_exists('getSymptom')){
     function getSymptom($id,$data){
         foreach ($data as $item){
@@ -121,8 +128,6 @@ if(!function_exists('downloadPatientReport')){
    
         //$fileName = "test.pdf"; //getUrl("test.pdf");
 
-       
-        
         $options = ['gs' => ['acl' => 'public-wite']];
         $context = stream_context_create($options);
         $fileName = "public_file.pdf";

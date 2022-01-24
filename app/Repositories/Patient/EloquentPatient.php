@@ -11,19 +11,16 @@ use Vanguard\PatientFamily;
 use Vanguard\PatientTravel;
 use Vanguard\Symptom;
 use Vanguard\Health;
+use Vanguard\Vaccine;
+use Vanguard\CommonCode;
 
 class EloquentPatient implements PatientRepository
 {   
     
     public function paginate($perPage, $search = null, $status = null, $user_id = null)
     {   
-        
+    
         //$query = Patient::query();
-
-        // if(auth()->user()->role_id != 3)
-        // {   
-        //     //$query = Patient::where(['status'=>$status, 'process_by_step'.($status+1)=>null]);
-        // }
 
         $query = Patient::where(['status'=>$status, 'process_by_step'.($status+1)=>null]);
 
@@ -35,18 +32,18 @@ class EloquentPatient implements PatientRepository
                 $q->orWhere('travel_place', 'like', "%{$search}%");
                 $q->orWhere('code', 'like', "%{$search}%");
             });
-        }
+        } 
         
         if($status){
 
             $query->where(function ($q) use ($status, $user_id) { 
                 
                 $q->where(['status'=>6, 'process_by_step4'=>$user_id]);
-                //$q->orWhere(['status'=>$status, 'process_by_step'.($status+1)=>null]);
+                $q->orWhere(['status'=>$status, 'process_by_step'.($status+1)=>null]);
             });
 
         }
-
+ 
         $result = $query->orderBy('created_at', 'desc')->with(['symptom','hospital','sex','getProvince', 'health'])->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
@@ -69,17 +66,6 @@ class EloquentPatient implements PatientRepository
             });
         }
         
-        // if($status){
-
-        //     $query->where(function ($q) use ($status, $user_id) { 
-                
-        //         $q->where(['status'=>6, 'process_by_step4'=>$user_id]);
-
-        //         $q->orWhere(['status'=>$status, 'process_by_step'.($status+1)=>null]);
-        //     });
-
-        // }
-
         $result = $query->orderBy('created_at', 'desc')->with(['symptom','hospital','sex','getProvince', 'health'])->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
@@ -143,7 +129,7 @@ class EloquentPatient implements PatientRepository
         return $result;
     }
 
-    public function all()
+    public function all() 
     {
         return Patient::all(); 
     }
@@ -184,7 +170,7 @@ class EloquentPatient implements PatientRepository
     {
         $digital_file = "";
         if(isset($data["laboratory_file"]))
-        {
+        { 
             $file = $data["laboratory_file"];
             $digital_file = Storage::putFile('patients', $file);
         }
@@ -223,7 +209,6 @@ class EloquentPatient implements PatientRepository
         $patient = new Patient(); 
         $patient->health_facility_id = $data["health_facility_id"];
         $patient->form_date = $this->getDate($data["form_date"]);
-        
         $patient->form_writer_name = $data["form_writer_name"];
         $patient->form_writer_phone = $data["form_writer_phone"];
         $patient->test_reason = $data["test_reason"] ?? 0;
@@ -257,15 +242,6 @@ class EloquentPatient implements PatientRepository
         $patient->laboratory_name = $data["laboratory_name"];
         $patient->laboratory_date = $this->getDate($data["laboratory_date"]);
         $patient->laboratory_id = $data["laboratory_id"];
-        $patient->first_vaccine = isset($data["first_vaccine"]) ? ($data["first_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->first_vaccine_date = isset($data["first_vaccine_date"]) ? $this->getDate($data["first_vaccine_date"]) : null;
-        $patient->first_vaccine_type_id = isset($data["first_vaccine_type_id"]) ? $data["first_vaccine_type_id"] : 0;
-        $patient->second_vaccine = isset($data["second_vaccine"]) ? ($data["second_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->second_vaccine_date = isset($data["second_vaccine_date"]) ? $this->getDate($data["second_vaccine_date"]): null;
-        $patient->second_vaccine_type_id =isset($data["second_vaccine_type_id"]) ?  $data["second_vaccine_type_id"] : 0;
-        $patient->third_vaccine = isset($data["third_vaccine"]) ? ($data["third_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->third_vaccine_date = isset($data["third_vaccine_date"]) ? $this->getDate($data["third_vaccine_date"]) : null;
-        $patient->third_vaccine_type_id = isset($data["third_vaccine_type_id"]) ? $data["third_vaccine_type_id"] : 0;
         $patient->laboratory_collector = isset($data["laboratory_collector"]) ? $data["laboratory_collector"] : null;
         $patient->laboratory_collector_phone =  isset($data["laboratory_collector"]) ? $data["laboratory_collector_phone"] : null;
         $patient->laboratory_file =  $digital_file;
@@ -278,8 +254,22 @@ class EloquentPatient implements PatientRepository
         $patient->death = isset($data["death"]) ? $data["death"] : 'off';
         $patient->labform_province = isset($data["labform_province"]) ? $data["labform_province"] : null;
         $patient->status_message = 1;
- 
         $patient->save();
+
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+
+        foreach($vaccination_list as $item)
+        {
+            if($data[$item->key] == 'on'){
+
+                $vaccine = new Vaccine();
+                $vaccine->patient_id = $patient->id;
+                $vaccine->number_vaccine = $item->key;
+                $vaccine->vaccine_type_id = $data[$item->key.'_type_id'];
+                $vaccine->date = isset($data[$item->key.'_type_id']) ? $this->getDate($data[$item->key.'_type_id']) : null;
+                $vaccine->save();
+            }
+        }
 
         if(isset($data["object_types_id"])){
             foreach ($data["object_types_id"] as $item)
@@ -303,19 +293,10 @@ class EloquentPatient implements PatientRepository
         return $patient;
     }
 
-    public function getDate($data){
-
-        if(is_null($data)){
-            return null;
-        }
-
-        $time = strtotime(str_replace('/', '-', $data));
-        $newformat = date('Y-m-d', $time);
-        return $newformat;
-    }
-    
     public function update($id,$data)
     {
+        $patient_vaccine = Vaccine::where('patient_id', $id)->delete();
+
         $symptom = Symptom::where('patient_id',$id)->get();
         foreach ($symptom as $item){
             $item->delete();
@@ -352,15 +333,10 @@ class EloquentPatient implements PatientRepository
             } else {
 
                 $firstName = $nameSpit[0];
-
                 $secondName = $nameSpit[1];
-
                 $first_key = mb_substr($firstName, 0, 1, 'utf-8');
-
                 $second_key = mb_substr($secondName, 0, 1, 'utf-8');
-            
                 $keyName = getKeyName($first_key, $second_key);
-            
                 $code = substr($dateSpite[2], 2).$dateSpite[1].$dateSpite[0].strtoupper($keyName).($count);
             }
         }
@@ -391,38 +367,24 @@ class EloquentPatient implements PatientRepository
         $patient->was_positive =  $data["was_positive"] ?? 0;
         $patient->address_description = $data["address_description"] ?? '';
         $patient->travel_place = $data["travel_place"];
-
         $patient->travel_date = $this->getDate($data["travel_date"]);
         $patient->travel_no = $data["travel_no"];
         $patient->travel_id = $data["travel_id"];
         $patient->travel_chair = $data["travel_chair"];
-
         $patient->travel_description = $data["travel_description"];
         $patient->virus_type = $data["virus_type"] ?? 0;
         $patient->number_sample_id = $data["number_sample_id"] ?? 0;
         $patient->laboratory_name = $data["laboratory_name"];
         $patient->laboratory_date = $this->getDate($data["laboratory_date"]);
         $patient->laboratory_id = $data["laboratory_id"];
-        $patient->first_vaccine = isset($data["first_vaccine"]) ? ($data["first_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->first_vaccine_date = isset($data["first_vaccine_date"]) ? $this->getDate($data["first_vaccine_date"]) : null;
-        $patient->first_vaccine_type_id = isset($data["first_vaccine_type_id"]) ? $data["first_vaccine_type_id"] : 0;
-        $patient->second_vaccine = isset($data["second_vaccine"]) ? ($data["second_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->second_vaccine_date = isset($data["second_vaccine_date"]) ? $this->getDate($data["second_vaccine_date"]): null;
-        $patient->second_vaccine_type_id =isset($data["second_vaccine_type_id"]) ?  $data["second_vaccine_type_id"] : 0;
-        $patient->third_vaccine = isset($data["third_vaccine"]) ? ($data["third_vaccine"]=='on' ? 1 : 0) : 0;
-        $patient->third_vaccine_date = isset($data["third_vaccine_date"]) ? $this->getDate($data["third_vaccine_date"]) : null;
-        $patient->third_vaccine_type_id = isset($data["third_vaccine_type_id"]) ? $data["third_vaccine_type_id"] : 0;
         $patient->laboratory_collector = isset($data["laboratory_collector"]) ? $data["laboratory_collector"] : null;
         $patient->laboratory_collector_phone =  isset($data["laboratory_collector"]) ? $data["laboratory_collector_phone"] : null;
         $patient->laboratory_file =  $digital_file;
-
         $patient->positive_date = $this->getDate($data['positive_date']);
         $patient->job = $data['job'];
         $patient->patient_age = $data['patient_age'];
-
         $patient->death = isset($data["death"]) ? $data["death"] : 'off';
         $patient->labform_province = isset($data["labform_province"]) ? $data["labform_province"] : null;
-
         $patient->save();
 
         if(isset($data["object_types_id"])){
@@ -445,6 +407,20 @@ class EloquentPatient implements PatientRepository
             }
         }
 
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        foreach($vaccination_list as $item)
+        {
+            if(isset($data[$item->key]) == 'on')
+            {
+                $vaccine = new Vaccine();
+                $vaccine->patient_id = $patient->id;
+                $vaccine->number_vaccine = $item->key;
+                $vaccine->vaccine_type_id = $data[$item->key.'_type_id'];
+                $vaccine->date = isset($data[$item->key.'_type_id']) ? $this->getDate($data[$item->key.'_type_id']) : null;
+                $vaccine->save();
+            }
+        }
+
         return $patient;
     }
 
@@ -462,6 +438,17 @@ class EloquentPatient implements PatientRepository
         return $patient->forceDelete();
     }
 
+    public function getDate($data){
+
+        if(is_null($data)){
+            return null;
+        }
+
+        $time = strtotime(str_replace('/', '-', $data));
+        $newformat = date('Y-m-d', $time);
+        return $newformat;
+    }
+    
     function import($files) {
         ini_set('max_execution_time', -1);
         ini_set('memory_limit', -1);

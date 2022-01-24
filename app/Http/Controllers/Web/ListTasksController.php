@@ -75,7 +75,7 @@ class ListTasksController extends Controller
 
         $patients = $this->patient->paginate(
             $perPage = 500,
-            null, 
+            null,  
             $status,
             auth()->user()->id
         ); 
@@ -571,9 +571,21 @@ class ListTasksController extends Controller
         $related_patient = getConmunCode('related_patient');
         $variant = getConmunCode('variant');
         $interviewStatusList = getConmunCode('status_interview');
-        $basic_to_search_status = getPatientCommond($patient->basic_to_search_status);
-        
-        return view('list-tasks.research',compact('patient', 'basic_to_search_status', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
+
+        $search_status = '';
+        $search_description = '';
+
+        if($patient->source_research == 1){
+            
+            $search_status = getPatientCommond($patient->basic_to_search_status);
+            $search_description = $patient->basic_to_search_description;
+
+        }else{
+            $search_status = getPatientCommond($patient->full_to_search_status);
+            $search_description = $patient->full_to_search_description;
+        }
+
+        return view('list-tasks.research',compact('patient', 'search_status', 'search_description', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
 }

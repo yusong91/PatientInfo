@@ -14,16 +14,16 @@
 		</ol>
 	</nav>
 
-	<form action="{{ route('patients.store') }}" method="post" enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="off">
+	<form action="{{ route('patients.store') }}" method="post" enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="on">
 		<fieldset>
 			<legend>@lang('hospital')</legend>
 			<div class="row">
-				<div class="col">
+				<div class="col"> 
 					<div class="form-floating">
 						<select name="health_facility_id" class="form-control" id="floatingHospital" placeholder="@lang('hospital')" required>
 							<option value="">{{ '--'. __('hospital') .'--' }}</option>
 							@foreach($health_facility as $item)
-								<option {{ $item->id==old("health_facility_id") ? 'selected' : '' }} value="{{$item->id}}">{{ $item->value }}</option>
+								<option {{ $item->id==$key_input['health_facility'] ? 'selected' : '' }} value="{{$item->id}}">{{ $item->value }}</option>
 							@endforeach
 						</select>
 						<label for="floatingHospital">@lang('hospital')</label>
@@ -32,7 +32,7 @@
 				<div class="col">
 					<div class="input-group">
 						<div class="form-floating">
-							<input name="form_date" required type="text"  id="floatingDob" class="form-control" placeholder="date">
+							<input name="form_date" required type="text"  id="floatingDob" class="form-control" placeholder="date" value="{{ getDateFormat($key_input['health_facility_date'])}}">
 							<label for="floatingdate">@lang('date') <span class="text-danger">*</span> </label>
 							@error('form_date') <span class="error text-danger">សូមបញ្ចូល  @lang('date')</span> @enderror
 						</div>
@@ -50,19 +50,19 @@
 			</div>
 		</fieldset>
 
-		<!-- form fill -->
+		<!-- form fill --> 
 		<fieldset>
 			<legend>@lang('FormFiller')</legend>
 			<div class="row">
 				<div class="col">
 					<div class="form-floating">
-						<input name="form_writer_name" type="text" class="form-control" id="floatingHospital" placeholder="@lang('hospital')">
+						<input name="form_writer_name" type="text" class="form-control" id="floatingHospital" placeholder="@lang('hospital')" value="{{ $key_input['form_writer_name'] }}">
 						<label for="floatingHospital">@lang('name')</label>
 					</div>
 				</div>
 				<div class="col">
 					<div class="form-floating">
-						<input name="form_writer_phone" type="tel" class="form-control" id="floatingPhone" placeholder="@lang('PhoneNum')">
+						<input name="form_writer_phone" type="tel" class="form-control" id="floatingPhone" placeholder="@lang('PhoneNum')" value="{{ $key_input['form_writer_phone'] }}">
 						<label for="floatingSearch">@lang('PhoneNum')</label>
 					</div>
 				</div>
@@ -128,7 +128,7 @@
 						<select name="gender" required class="form-control"  id="floatingHospital" placeholder="@lang('Gender')">
 							<option value="">{{ '--'. __('Gender') .'--' }}</option>
 							@foreach($gender as $item)
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
+								<option {{ $item->id == $key_input['gender'] ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->value }}</option>
 							@endforeach
 						</select>
 						<label for="floatingHospital">@lang('Gender') <span class="text-danger">*</span></label>
@@ -171,7 +171,6 @@
 							<option value="">{{ '--'. __('Nationality') .'--' }}</option>
 
 							@foreach($nation as $item)
-
 								<option {{ $item->id==106 ? "selected" : "" }}  value="{{ $item->id }}">{{ $item->value }}</option>
 							@endforeach
 						</select>
@@ -249,25 +248,26 @@
 						<select name="province" class="form-control" id="floatingHospital" placeholder="@lang('CityProvince')">
 							<option value="">{{ '--'. __('CityProvince') .'--' }}</option>
 							@foreach($provinces as $item)
-								<option value="{{ $item->code }}">{{ $item->name_kh }}</option>
+								<option {{ $item->code == $key_input['province'] ?  'selected' : '' }} value="{{ $item->code }}">{{ $item->name_kh }}</option>
 							@endforeach
 						</select>
 						<label for="floatingHospital">@lang('CityProvince')</label>
 					</div>
 				</div>
-					<div class="col-md-3">
-						<div class="form-floating">
-							<select name="district" class="form-control" id="district_id" placeholder="@lang('Commune')">
-								<option value="0">{{ '--'. __('Commune') .'--' }}</option>
-
-							</select>
-							<label for="floatingHospital">@lang('Commune')</label>
-						</div>
+				
+				<div class="col-md-3">
+					<div class="form-floating">
+						<select name="district" class="form-control" id="district_id" placeholder="@lang('Commune')">
+							<option value="{{ $key_input['district'] ?? 0 }}">{{ getLabelDistrict($key_input['district']) ?? '--'. __('District') .'--' }}</option>
+						</select>
+						<label for="floatingHospital">@lang('Commune')</label>
 					</div>
+				</div>
+				
 				<div class="col-md-3">
 					<div class="form-floating">
 						<select name="commune" class="form-control" id="commune_id" placeholder="@lang('District')">
-							<option value="0">{{ '--'. __('District') .'--' }}</option>
+							<option value="{{ $key_input['commune'] ?? 0 }}">{{ getLabelCommune($key_input['commune'])  ?? '--'. __('Commune') .'--' }}</option>
 						</select>
 						<label for="floatingHospital">@lang('District')</label>
 					</div>
@@ -276,7 +276,7 @@
 				<div class="col-md-3">
 					<div class="form-floating">
 						<select name="village" class="form-control" id="village_id" placeholder="@lang('Phumi')">
-							<option value="0">{{ '--'. __('Phumi') .'--' }}</option>
+							<option value="{{ $key_input['village'] ?? 0 }}">{{ getLabelVillage($key_input['village'])  ?? '--'. __('Phumi') .'--' }}</option>
 						</select>
 						<label for="floatingHospital">@lang('Phumi')</label>
 					</div>
@@ -327,10 +327,9 @@
 				</div>
 				<div class="col-md align-self-center">
 					@lang('GotCovid')
-
 					@foreach($covid_patient as $item)
 						<div class="form-check form-check-inline ml-3">
-							<input name="was_positive" class="form-check-input" type="radio" id="never" value="{{ $item->id }}">
+							<input {{ $key_input['was_positive'] == $item->id ? 'checked' : '' }} name="was_positive" class="form-check-input" type="radio" id="{{ $item->key }}" value="{{ $item->id }}">
 							<label class="form-check-label" for="never">{{ $item->value }}</label>
 						</div>
 					@endforeach
@@ -427,7 +426,7 @@
 			<div class="row justify-content-between mb-4">
 				<div class="col-md-3">
 					<div class="form-floating">
-						<input name="laboratory_name" required type="text"  class="form-control" id="floatingTest" placeholder="@lang('TestLocation')">
+						<input name="laboratory_name" required type="text"  class="form-control" id="floatingTest" placeholder="@lang('TestLocation')" value="{{ $key_input['laboratory_name'] }}">
 						<label for="floatingTest">@lang('TestLocation') <span class="text-danger">*</span></label>
 						@error('laboratory_name') <span class="error text-danger">សូមបញ្ចូល @lang('TestLocation')</span> @enderror
 					</div>
@@ -436,7 +435,7 @@
 				<div class="col-md-3">
 					<div class="input-group">
 						<div class="form-floating">
-							<input name="laboratory_date" required type="text" id="testDate" class="form-control" id="floatingTestDate" placeholder="@lang('TestDate')">
+							<input name="laboratory_date" required type="text" id="testDate" class="form-control" id="floatingTestDate" placeholder="@lang('TestDate')" value="{{ $key_input['laboratory_date'] }}">
 							<label for="floatingTestDate">@lang('TestDate') <span class="text-danger">*</span></label>
 							@error('laboratory_date') <span class="error text-danger">សូមបញ្ចូល @lang('TestDate')</span> @enderror
 						</div>
@@ -451,16 +450,12 @@
 					</div>
 				</div> 
 
-
-
-
- 
 				<div class="col-md-3"> 
 					<div class="form-floating">
 						<select name="labform_province" class="form-control" id="floatingLabo" placeholder="@lang('Labo')" required>
 							<option value="">{{ '--'. __('CityProvince') .'--' }}</option>
 							@foreach($provinces as $item)	
-								<option value="{{ $item->code }}">{{ $item->name_kh }}</option>
+								<option {{ $item->code == $key_input['labform_province'] ?  'selected' : '' }} value="{{ $item->code }}">{{ $item->name_kh }}</option>
 							@endforeach
 						</select>
 						<label for="floatingLabo">@lang('Labo')</label>
@@ -472,7 +467,7 @@
 						<select name="laboratory_id" class="form-control" id="floatingLabo" placeholder="@lang('Labo')">
 							<option value="0">{{ '--'. __('Labo') .'--' }}</option>
 							@foreach($lab_center as $item)
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
+								<option {{ $item->id == $key_input['laboratory_id'] ? 'selected' : ''}}  value="{{ $item->id }}">{{ $item->value }}</option>
 							@endforeach
 						</select>
 						<label for="floatingLabo">@lang('Labo')</label>
@@ -500,9 +495,7 @@
 						<select name="number_sample_id" class="form-control" id="floatingAnalysist" placeholder="@lang('Analysist')">
 							<option value="0">{{ '--'. __('Analysist') .'--' }}</option>
 							@foreach($number_sample as $item)
-
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
-
+								<option {{ $item->id == $key_input['number_sample_id'] ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->value }}</option>
 							@endforeach
 
 						</select>
@@ -514,132 +507,64 @@
 
 			<label class="mb-3">@lang('Vaccination')</label>
 
-			<div class="row justify-content-between mb-4">
-				<div class="col-md-3 align-self-center">
-					<div class="form-check form-check-inline">
-						<input name="first_vaccine" class="form-check-input vaccine1" type="checkbox" id="vaccine1">
-						<label class="form-check-label" for="vaccine1">@lang('Vaccine1')</label>
-					</div>
-				</div>
-				<div class="col-md-3 form-disabled1">
-					<div class="input-group">
-						<div class="form-floating">
-							<input name="first_vaccine_date" type="text" id="vaccine1Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" disabled>
-							<label for="floatingVaccineDatee">@lang('VaccineDate')</label>
+			@foreach($vaccination_list as $item) 
+				
+				<div class="row mb-4">
+				
+					<div class="col-md-4 align-self-center">
+						<div class="form-check form-check-inline">
+							<input name="{{ $item->key }}" class="form-check-input {{ $item->key }}" type="checkbox" id="{{ $item->key }}">
+							<label class="form-check-label" for="{{ $item->key }}">{{ $item->value }}</label>
 						</div>
-						<div class="input-group-prepend">
-							<div class="input-group-text">
-								<svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-									<path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-									<path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-								</svg>
+					</div>
+
+					<div class="col-md-4 {{ $item->key }}">
+						<div class="input-group">
+							<div class="form-floating">
+								<input name="{{ $item->key }}_date" type="text" id="{{ $item->key }}Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')">
+								<label for="floatingVaccineDate">@lang('VaccineDate')</label>
+							</div>
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
+										<path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
+										<path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
+									</svg>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3 form-disabled1">
-					<div class="form-floating">
-						<select name="first_vaccine_type_id" class="form-control" id="floatingVaccineType1" placeholder="@lang('VaccineType')" disabled>
-							<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-							@foreach($type_vaccine as $item)
 
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
-
-							@endforeach
-						</select>
-						<label for="floatingVaccineType">@lang('VaccineType')</label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row justify-content-between mb-4">
-				<div class="col-md-3 align-self-center">
-					<div class="form-check form-check-inline">
-						<input name="second_vaccine" class="form-check-input vaccine2" type="checkbox" id="vaccine2">
-						<label class="form-check-label" for="vaccine2">@lang('Vaccine2')</label>
-					</div>
-				</div>
-				<div class="col-md-3 form-disabled2">
-					<div class="input-group">
+					<div class="col-md-4 {{ $item->key }}">
 						<div class="form-floating">
-							<input name="second_vaccine_date" type="text" id="vaccine2Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" disabled>
-							<label for="floatingVaccineDatee">@lang('VaccineDate')</label>
-						</div>
-						<div class="input-group-prepend">
-							<div class="input-group-text">
-								<svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-									<path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-									<path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-								</svg>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 form-disabled2">
-					<div class="form-floating">
-						<select name="second_vaccine_type_id" class="form-control" id="floatingVaccineType2" placeholder="@lang('VaccineType')" disabled>
-							<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-							@foreach($type_vaccine as $item)
+							<select name="{{ $item->key }}_type_id" class="form-control" id="floatingVaccineType1" placeholder="@lang('VaccineType')">
+								<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
+								@foreach($type_vaccine as $item)
 
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
+									<option value="{{ $item->id }}">{{ $item->value }}</option>
 
-							@endforeach
-						</select>
-						<label for="floatingVaccineType">@lang('VaccineType')</label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row justify-content-between mb-4">
-				<div class="col-md-3 align-self-center">
-					<div class="form-check form-check-inline">
-						<input name="third_vaccine" class="form-check-input vaccine3" type="checkbox" id="vaccine3">
-						<label class="form-check-label" for="vaccine3">@lang('Vaccine3')</label>
-					</div>
-				</div>
-				<div class="col-md-3 form-disabled3">
-					<div class="input-group">
-						<div class="form-floating">
-							<input name="third_vaccine_date" type="text" id="vaccine3Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" disabled>
-							<label for="floatingVaccineDatee">@lang('VaccineDate') </label>
-						</div>
-						<div class="input-group-prepend">
-							<div class="input-group-text">
-								<svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-									<path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-									<path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-								</svg>
-							</div>
+								@endforeach
+							</select>
+							<label for="floatingVaccineType">@lang('VaccineType')</label>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3 form-disabled3">
-					<div class="form-floating">
-						<select name="third_vaccine_type_id" class="form-control" id="floatingVaccineType3" placeholder="@lang('VaccineType')" disabled>
-							<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-							@foreach($type_vaccine as $item)
 
-								<option value="{{ $item->id }}">{{ $item->value }}</option>
+				</div> 
 
-							@endforeach
-						</select>
-						<label for="floatingVaccineType">@lang('VaccineType')</label>
-					</div>
-				</div>
-			</div>
+			@endforeach
 
 			<label class="mb-3">@lang('Collector')</label>
 
 			<div class="row justify-content-between mb-3">
 				<div class="col-md-3">
 					<div class="form-floating">
-						<input name="laboratory_collector" type="text" class="form-control" id="floatingCollectorName" placeholder="@lang('CollctorName')">
+						<input value="{{ $key_input['laboratory_collector'] }}" name="laboratory_collector" type="text" class="form-control" id="floatingCollectorName" placeholder="@lang('CollctorName')">
 						<label for="floatingCollectorName">@lang('CollctorName')</label>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating">
-						<input name="laboratory_collector_phone" type="text" class="form-control" id="floatingCollectorPhone" placeholder="@lang('CollctorPhone')">
+					<input value="{{ $key_input['laboratory_collector_phone'] }}" name="laboratory_collector_phone" type="text" class="form-control" id="floatingCollectorPhone" placeholder="@lang('CollctorPhone')">
 						<label for="floatingCollectorPhone">@lang('CollctorPhone')</label>
 					</div>
 				</div>
@@ -657,7 +582,7 @@
 				@csrf
 				<div class="col-md-3 align-self-end text-right">
 					<button type="submit" class="btn btn-primary px-5">@lang('BtnSave')</button>
-				</div>
+				</div> 
 			</div>
 		</fieldset>
 
@@ -668,7 +593,7 @@
 
 @section('scripts')
 <script>
-	$('#floatingDob, #checkinDate, #dob,#symptomDate, #arrivedDate, #testDate, #vaccine1Date, #vaccine2Date, #vaccine3Date').datepicker({
+	$('#floatingDob, #checkinDate, #dob,#symptomDate, #arrivedDate, #testDate, #first_vaccineDate, #second_vaccineDate, #third_vaccineDate, #fourth_vaccineDate').datepicker({
 			uiLibrary: 'bootstrap4',
 		    format: 'dd/mm/yyyy'
 	});
@@ -682,25 +607,32 @@
 	});
 
 	// Prob disabled and enable vaccine
-	$('.vaccine1').change(function () {
+	$('.first_vaccine').change(function () {
 			if ($(this).is(':checked')) {
-					$("div.form-disabled1 .form-floating").children().prop('disabled', false);
+					$("div.first_vaccine .form-floating").children().prop('disabled', false);
 			} else {
-					$("div.form-disabled1 .form-floating").children().prop('disabled', true);
+					$("div.first_vaccine .form-floating").children().prop('disabled', false);
 			}
 	});
-	$('.vaccine2').change(function () {
+	$('.second_vaccine').change(function () {
 			if ($(this).is(':checked')) {
-					$("div.form-disabled2 .form-floating").children().prop('disabled', false);
+					$("div.second_vaccine .form-floating").children().prop('disabled', false);
 			} else {
-					$("div.form-disabled2 .form-floating").children().prop('disabled', true);
+					$("div.second_vaccine .form-floating").children().prop('disabled', false);
 			}
 	});
-	$('.vaccine3').change(function () {
+	$('.third_vaccine').change(function () {
 			if ($(this).is(':checked')) {
-					$("div.form-disabled3 .form-floating").children().prop('disabled', false);
+					$("div.third_vaccine .form-floating").children().prop('disabled', false);
 			} else {
-					$("div.form-disabled3 .form-floating").children().prop('disabled', true);
+					$("div.third_vaccine .form-floating").children().prop('disabled', false);
+			}
+	});
+	$('.fourth_vaccine').change(function () {
+			if ($(this).is(':checked')) {
+					$("div.fourth_vaccine .form-floating").children().prop('disabled', false);
+			} else {
+					$("div.fourth_vaccine .form-floating").children().prop('disabled', false);
 			}
 	});
 
@@ -749,7 +681,7 @@
 				var url = '{{ route('location.commune', 'song') }}';
 				url = url.replace('song', dis_id);
 				$.ajax({
-						url: url,
+						url: url, 
 						type: 'GET',
 						dataType: 'json',success: function(data){
 							$.each(data, function(k, v) {
@@ -775,7 +707,7 @@
 					type: 'GET',
 					dataType: 'json',success: function(data){
 						$.each(data, function(k, v) {
-							$('#village_id').append('<option value="'+ v.village_code +'" name="' + v.name + '">'+ v.name_kh +'</option>');
+							$('#village_id').append('<option value="'+ v.code +'" name="' + v.name + '">'+ v.name_kh +'</option>');
 						});
 					}
 				});

@@ -29,11 +29,11 @@
                 {{ $patient->general_note }}
             </div>
 
-        <!-- @elseif($patient->status_message == 6 )
+        @elseif($patient->status_message == 6 )
             
             <div class="alert alert-success" role="alert">
                 {{  getTextStatus($patient->status_message) }}
-            </div> -->
+            </div>
 
         @elseif($patient->status == 6 && $patient->status_message == 7)
 

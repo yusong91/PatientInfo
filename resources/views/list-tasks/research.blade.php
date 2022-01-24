@@ -11,11 +11,11 @@
             </ol> 
         </nav>
 
-        @if($patient->status == 5)
+        
             <div class="alert alert-danger" role="alert">
-                {{ $basic_to_search_status->value }} ({{ $patient->basic_to_search_description }})
+                {{ $search_status->value ?? '' }} ({{ $search_description ?? '' }})
             </div>
-        @endif
+       
 
         <form action="{{ route('research.store') }}" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
             <fieldset>

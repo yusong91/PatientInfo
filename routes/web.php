@@ -350,7 +350,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->middleware('permission:settings.notifications');
 
     /**
-     * Activity Log
+     * Activity Log 
      */
 
     Route::get('activity', 'ActivityController@index')->name('activity.index')
