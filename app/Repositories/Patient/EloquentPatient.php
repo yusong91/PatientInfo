@@ -260,7 +260,7 @@ class EloquentPatient implements PatientRepository
 
         foreach($vaccination_list as $item)
         {
-            if($data[$item->key] == 'on'){
+            if(isset($data[$item->key]) == 'on'){
 
                 $vaccine = new Vaccine();
                 $vaccine->patient_id = $patient->id;
