@@ -252,15 +252,85 @@ class PatientsController extends Controller
 
     public function settingReport(){ 
 
-        $dataentry = Patient::where('step1','!=',null)->count();
-        $basic = Patient::where('step2','!=',null)->count();
-        $datatechnical = Patient::where('step3','!=',null)->count();
-        $fullinterview = Patient::where('step4','!=',null)->count();
-        $death = Patient::where('death',"on")->count();
-        $research = 0;
-        return view('report.general-report',compact('dataentry','basic','datatechnical','fullinterview','death','research'));
+        // alpha 280, beta 281, gamma 282, delta 283
+        $patient_all = Patient::count(); 
+        $patient_daily = Patient::whereDate('created_at', Carbon::today())->count();
+        $patient_death_all = Patient::where('death','!=', 'off')->count();
+        $patient_death_daily = Patient::where('death','!=', 'off')->whereDate('created_at', Carbon::today())->count();
+
+        $currentDateTime = Carbon::now(); 
+        $currentDate = Carbon::parse($currentDateTime);
+        $past_day_1 = Carbon::parse($currentDateTime)->subDays(1);
+        $past_day_2 = Carbon::parse($currentDateTime)->subDays(2);
+        $past_day_3 = Carbon::parse($currentDateTime)->subDays(3);
+        $list_variants = ['Year-Month-Day'];
+        $variants = CommonCode::commonCode('variant')->first()->children;
+        
+        $data_past_day_0 = Patient::whereDate('created_at', $currentDate->format('Y-m-d'))->get()->groupBy('virus_type');
+        $data_past_day_1 = Patient::whereDate('created_at', $past_day_1->format('Y-m-d'))->get()->groupBy('virus_type');
+        $data_past_day_2 = Patient::whereDate('created_at', $past_day_2->format('Y-m-d'))->get()->groupBy('virus_type');
+        $data_past_day_3 = Patient::whereDate('created_at', $past_day_3->format('Y-m-d'))->get()->groupBy('virus_type');
+        
+        $data_bar_chart_past_day_0 = [['',''],['','']];
+        $data_bar_chart_past_day_1 = [$past_day_1->format('Y-m-d')];
+        $data_bar_chart_past_day_2 = [$past_day_2->format('Y-m-d')];
+        $data_bar_chart_past_day_3 = [$past_day_3->format('Y-m-d')];
+
+        foreach($variants as $item)
+        {
+            if(isset($data_past_day_0[$item->id]))
+            {
+                $data_bar_chart_past_day_0[] = [$item->value, count($data_past_day_0[$item->id])];
+            }else{
+                $data_bar_chart_past_day_0[] = [$item->value, 0];
+            }
+        }
+
+        //dd($data_bar_chart_past_day_0);
+        
+        foreach($variants as $item)
+        {
+            if(isset($data_past_day_1[$item->id]))
+            {
+                $data_bar_chart_past_day_1[] = count($data_past_day_1[$item->id]);
+            }else{
+                $data_bar_chart_past_day_1[] = 0;
+            }
+        }
+
+        foreach($variants as $item)
+        {
+            if(isset($data_past_day_2[$item->id]))
+            {
+                $data_bar_chart_past_day_2[] = count($data_past_day_2[$item->id]);
+            }else{
+                $data_bar_chart_past_day_2[] = 0;
+            }
+        }
+
+        foreach($variants as $item)
+        {
+            if(isset($data_past_day_3[$item->id]))
+            {
+                $data_bar_chart_past_day_3[] = count($data_past_day_3[$item->id]);
+            }else{
+                $data_bar_chart_past_day_3[] = 0;
+            }
+        }
+
+        $data_bar_chart_past_day_all = [$data_bar_chart_past_day_3, $data_bar_chart_past_day_2, $data_bar_chart_past_day_1];
+
+       
+       foreach($variants as $variant)
+       {
+           $list_variants[] = $variant->value;
+       }
+       
+        //dd($data_bar_chart_past_day_all[2]);
+
+        return view('report.general-report',compact('data_bar_chart_past_day_0', 'patient_all', 'list_variants', 'patient_daily', 'patient_death_all', 'patient_death_daily', 'data_bar_chart_past_day_all'));
     } 
- 
+
     public function approveFullInterivew($patient_id)
     {   
         $interviewStatusList = getConmunCode('status_interview');

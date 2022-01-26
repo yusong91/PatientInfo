@@ -107,156 +107,121 @@
         @lang('Patient Report')
     </li>
 @stop
-
+ 
 @section('content')
 
 <div class="row"> 
     <div class="col-xl-3 col-md-6"> 
         <div class="card widget">
-            <div class="card-body">
+            <div class="card-body shadow">
                 <div class="row">
-                    <div class="p-3 text-danger flex-1">
-                        <i class="fa fa-users fa-3x"></i>
+                    <div class="p-2 text-danger flex-1">
+                        <i class="fa fa-users fa-2x"></i>
                     </div>
-
-                    <div class="pr-3">
-                        <h2 class="text-right">...</h2>
-                        <div class="text-muted">---</div>
+ 
+                    <div class="pr-2">
+                        <h2 class="text-center">{{$patient_all}}</h2>
+                        <div class="text-muted">@Lang('Total_patient')</div>
                     </div>
                 </div>
             </div> 
         </div>
     </div>
- 
-    <div class="col-xl-3 col-md-6">
-        <div class="card widget">
-            <div class="card-body">
-                <div class="row">
-                    <div class="p-3 text-danger flex-1">
-                        
-                        <i class="fa fa-death"></i>
-                    </div>
-
-                    <div class="pr-3">
-                        <h2 class="text-right">...</h2>
-                        <div class="text-muted">...</div>
-                    </div>
-                </div>
-            </div>
-        </div> 
-    </div>
 
     <div class="col-xl-3 col-md-6">
         <div class="card widget"> 
-            <div class="card-body">
+            <div class="card-body shadow">
                 <div class="row">
-                    <div class="p-3 text-primary flex-1">
-                        <i class="fa fa-user fa-3x"></i>  <!-- fa-user-slash -->
+                    <div class="p-2 text-danger flex-1">
+                        <i class="fa fa-user fa-2x"></i>  <!-- fa-user-slash -->
                     </div>
 
-                    <div class="pr-3">
-                        <h2 class="text-right">...</h2>
-                        <div class="text-muted">...</div>
+                    <div class="pr-2">
+                        <h2 class="text-center">{{$patient_daily}}</h2>
+                        <div class="text-muted">@Lang('Total_patient_daily')</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+ 
     <div class="col-xl-3 col-md-6">
-        <div class="card widget">
-            <div class="card-body">
+        <div class="card widget"> 
+            <div class="card-body shadow">
                 <div class="row">
-                    <div class="p-3 text-success flex-1">
-                        <i class="fa fa-user fa-3x"></i>
+                    <div class="p-2 text-primary flex-1">
+                        <i class="fa fa-users fa-2x"></i>  <!-- fa-user-slash -->
                     </div>
 
-                    <div class="pr-3">
-                        <h2 class="text-right">...</h2>
-                        <div class="text-muted">...</div>
+                    <div class="pr-2">
+                        <h2 class="text-center">{{$patient_death_all}}</h2>
+                        <div class="text-muted">@Lang('Total_patient_death')</div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 ">
+        <div class="card widget"> 
+            <div class="card-body shadow">
+                <div class="row">
+                    <div class="p-2 text-primary flex-1">
+                        <i class="fa fa-user fa-2x"></i>  <!-- fa-user-slash -->
+                    </div>
+
+                    <div class="pr-2">
+                        <h2 class="text-center">{{$patient_death_daily}}</h2>
+                        <div class="text-muted">@Lang('Total_patient_death_daily')</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
 </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table tbl-info table-light shadow"  style="height: 300px;">
-                <thead class="bg-primary">
+<div class="row">
+    <div class="col-md-6">
+        <table class="table tbl-info table-light shadow"  style="height: 300px;">
+            <thead class="bg-primary">
                 <tr>
                     <th>
-                        ចំនួនកូនក្រុម 
+                    @lang('Data_patient_4_day_later')
                     </th>
-                    
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 <tr>
                     <td>
                         <!-- <ul class="user-list list-unstyled"><li>test</li></ul> -->
-
                         <div id="barchart_material" style="width: auto"></div>
 
-                    </td>
-                    
+                    </td>   
                 </tr>
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table> 
+    </div> 
 
-        <div class="col-md-6">
-            <table class="table tbl-info table-light shadow"  style="height: 300px;">
-                <thead class="bg-primary">
+    <div class="col-md-6">
+        <table class="table tbl-info table-light shadow"  style="height: 300px;">
+            <thead class="bg-primary">
                 <tr>
                     <th>
-                        ចំនួនកូនក្រុម 
+                    @lang('Data_patient_dialy')
                     </th>
-                    
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 <tr>
                     <td>
-                        <center> <div id="chart_action"  style="padding:0px;"></div></center>
+                        <center> <div id="chart_action"></div></center>
                     </td>
                 </tr>
-                </tbody>
-            </table>
-        </div>
-
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-striped table-responsive-sm m-3">
-        <thead>
-        <tr>
-            <th scope="col">@lang('Num')</th>
-            <th scope="col">@lang('PatCode')</th>
-            <th scope="col">@lang('PatName')</th>
-            <th scope="col">@lang('Gender')</th>
-            <th scope="col">@lang('Dob')</th>
-            <th scope="col">@lang('PatPhone')</th>
-            <th scope="col">@lang('PatAdd')</th>
-            <th scope="col">@lang('PatHospital')</th>
-            <th scope="col">@lang('PatStatus')</th>
-            <th scope="col" class="text-center">@lang('ActionGroup')</th>
-        </tr>
-        </thead>
-        <tbody>
-                <tr>
-                    <td>test</td>
-                </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th colspan="7" class="px-0">
-                test
-            </th>
-        </tr>
-        </tfoot>
-    </table>
+</div>
 
 @stop
 
@@ -266,12 +231,22 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-    <script> 
+<script> 
 
+    var data_bar_chart = <?php echo collect($data_bar_chart_past_day_all); ?>;
+    var bar_chart = Array.from(data_bar_chart);
+
+    var raw_data_variants = <?php echo collect($list_variants); ?>;
+    var data_variants = Array.from(raw_data_variants);
+
+    var data_pie_chart = <?php echo collect($data_bar_chart_past_day_0); ?>;
+    var pie_chart = Array.from(data_pie_chart);
+    
         var activeG = 2;
         var disableG = 2;
         var deactivateG = 2;
-        
+        var deactivateH = 2;
+ 
         $(document).ready(function(){
 
             google.charts.load('current', {'packages':['corechart']});
@@ -280,63 +255,51 @@
             function drawChart() {
 
                 var data = google.visualization.arrayToDataTable([
-                    ['', ''],
-                    ['', ''],
-                    ['Disconnected', disableG],
-                    ['Deactivate', deactivateG],
-                    ['Connected', activeG] 
+                        pie_chart[0],
+                        pie_chart[1],
+                        pie_chart[3], //beta
+                        pie_chart[4], //gumma
+                        pie_chart[5],
+                        ['', 0],
+                        pie_chart[2]
                 ]);
 
                 var options = {
-
                     title: '',
-
                     backgroundColor: 'none',
-
                     legend: 'none',
-
                     chartArea: {width: 400, height: 300}
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('chart_action'));
-
                 chart.draw(data, options);
             }
         });
+     
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart);
 
-        
-      google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
 
-      function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', 'Total Patients', 'Death', 'Basic Interview', 'Data Technical', 'Full Interview'],
-          ['2014', 1000, 400, 200,23 ,343],
-          ['2015', 1170, 460, 250,223 ,343],
-          ['2016', 660, 1120, 300,33 ,343],
-          ['2017', 1030, 540, 350,33 ,343]
+          data_variants,
+          bar_chart[0],
+          bar_chart[1],
+          bar_chart[2]
         ]);
-
         var options = {
-          chart: {
+            chart: {
             title: '',
             subtitle: ''
-          },
-          
-          legend: {position: 'none'},
-
-          bars: 'vertical'
-          
+        },
+        legend: {position: 'none'},
+            bars: 'vertical'
         };
-
         var chart = new google.charts.Bar(document.getElementById('barchart_material'));
-
         chart.draw(data, google.charts.Bar.convertOptions(options));
     }
     
-
-
-    </script>
+</script>
 
 @endsection
 

@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('/', 'PatientsController@index')->name('dashboard');
     Route::get('/patientReport', 'PatientsController@report')->name('patients.report');
-    Route::get('/setting-report', 'PatientsController@settingReport')->name('settingReport.report');
+    Route::get('/dashboard-report', 'PatientsController@settingReport')->name('settingReport.report');
 
     /**
         *  Patient Info
