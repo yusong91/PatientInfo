@@ -167,6 +167,7 @@ class PatientsController extends Controller
         $variant = getConmunCode('variant');
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
         $patient_vaccine = getPatientVaccine($id);
+        
 
         //dd([$vaccination_list, $patient_vaccine]);
 

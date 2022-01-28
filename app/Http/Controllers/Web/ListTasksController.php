@@ -25,6 +25,7 @@ use Vanguard\Http\Requests\Patient\CreatePatientFamilyRequest;
 use Vanguard\Http\Requests\Patient\CreatePatientTravelRequest;
 use Vanguard\Http\Requests\Patient\CreateWorkplaceRequest;
 use Vanguard\Http\Requests\Patient\CreatePatientFullinterviewRequest;
+use Vanguard\CommonCode;
 
 
 class ListTasksController extends Controller
@@ -550,8 +551,10 @@ class ListTasksController extends Controller
         
     }
 
+    //START RESEARCH
     public function showResearch($id)
     {   
+        
         $submit = Patient::find($id);
         $submit->process_by_step5 = auth()->user()->id;
         $submit->save();
@@ -572,6 +575,9 @@ class ListTasksController extends Controller
         $variant = getConmunCode('variant');
         $interviewStatusList = getConmunCode('status_interview');
 
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);
+
         $search_status = '';
         $search_description = '';
 
@@ -585,7 +591,7 @@ class ListTasksController extends Controller
             $search_description = $patient->full_to_search_description;
         }
 
-        return view('list-tasks.research',compact('patient', 'search_status', 'search_description', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
+        return view('list-tasks.research',compact('vaccination_list', 'patient_vaccine','patient', 'search_status', 'search_description', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
 }

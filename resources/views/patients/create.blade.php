@@ -3,7 +3,7 @@
 @section('content')
 
 <section>
-
+ 
 	<nav aria-label="Page breadcrumb">
 		<ol class="breadcrumb form-steps col-md-10 mx-auto">
 			<div class="line"></div>
@@ -329,7 +329,7 @@
 					@lang('GotCovid')
 					@foreach($covid_patient as $item)
 						<div class="form-check form-check-inline ml-3">
-							<input {{ $key_input['was_positive'] == $item->id ? 'checked' : '' }} name="was_positive" class="form-check-input" type="radio" id="{{ $item->key }}" value="{{ $item->id }}">
+							<input {{ $item->id == $key_input['was_positive']   ? 'checked' : '' }} name="was_positive" class="form-check-input" type="radio" id="{{ $item->key }}" value="{{ $item->id }}">
 							<label class="form-check-label" for="never">{{ $item->value }}</label>
 						</div>
 					@endforeach

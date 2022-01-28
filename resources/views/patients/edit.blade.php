@@ -552,24 +552,43 @@
 						</div>
 					</div>
 
+					<?php $list = []; ?>
+
 					<div class="col-md-4 {{ $item->key }}">
 						<div class="form-floating">
 							<select name="{{ $item->key }}_type_id" class="form-control" id="floatingVaccineType1" placeholder="@lang('VaccineType')">
 								<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-								@foreach($type_vaccine as $t_v)
+								@foreach($type_vaccine as $t_v) 
 
-									@if(count($patient_vaccine) > 0)
+									@if(count($patient_vaccine) > 0) 
+
 										@foreach($patient_vaccine as $v)
+                                        
+                                            @if($item->key == $v->number_vaccine && $t_v->id == $v->vaccine_type_id)
 
-											@if(($item->key == $v->number_vaccine && $t_v->id == $v->vaccine_type_id))
 												<option {{ ($item->key == $v->number_vaccine && $t_v->id == $v->vaccine_type_id) ? 'selected' : '' }} value="{{ $t_v->id }}">{{ $t_v->value }}</option>
-											@else
-												<option value="{{ $t_v->id }}">{{ $t_v->value }}</option>
-											@endif
-										
+                                                
+                                            @endif
+
+                                            <?php $list[$v->number_vaccine] = $v->number_vaccine; ?>
+
 										@endforeach
+
+                                        @if(isset($list[$t_v->key]) == false)
+
+                                            <option value="{{ $t_v->id }}">{{ $t_v->value }} </option>
+
+                                        @endif
+
+                                        <?php $list[$t_v->key] = $t_v->key; ?>
+
+                                    @else
+
+                                        <option value="{{ $t_v->id }}">{{ $t_v->value }}</option>
 									
 									@endif
+
+                                    
 
 								@endforeach
 							</select>
@@ -599,8 +618,8 @@
 					</div>
 				</div>
 				<div class="col-md-3"></div>
-			</div>
-
+			</div> 
+ 
 			<div class="row justify-content-between">
 				<div class="col-md-6">
 					<label class="mb-3">@lang('ChooseDoc')</label>

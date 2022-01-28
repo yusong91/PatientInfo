@@ -7,6 +7,7 @@ use Vanguard\Http\Controllers\Controller;
 use Vanguard\Http\Requests\Patient\CreatePatientRequest;
 use Vanguard\Patient;
 use Vanguard\Repositories\Patient\PatientRepository;
+use Vanguard\CommonCode;
 
 class InterviewController extends Controller 
 {
@@ -40,8 +41,12 @@ class InterviewController extends Controller
         $related_patient = getConmunCode('related_patient');
         $variant = getConmunCode('variant');
         $interviewStatusList = getConmunCode('status_interview');
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);
 
-        return view('patients.interview',compact('patient', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
+
+
+        return view('patients.interview',compact('patient_vaccine','vaccination_list','patient', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
     public function setResearch(Request $request)
@@ -58,6 +63,7 @@ class InterviewController extends Controller
     public function researchBasic($id)
     {   
     
+
         $submit = Patient::find($id);
         $submit->process_by_step5 = auth()->user()->id;
         $submit->save();
@@ -80,16 +86,17 @@ class InterviewController extends Controller
         $interviewStatusList = getConmunCode('status_interview');
 
         $basic_to_search_status = getPatientCommond($patient->basic_to_search_status);
-        dd('ok');
+        
         return view('patients.research-basic',compact('patient', 'basic_to_search_status', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
+    //BASIC INTERVIEW
     public function interviewStore(CreatePatientRequest $request)
     {
-        if($request->submit_type == 'store')
+        if($request->submit_type == 'store') 
         {
             $patient = $this->patientRepo->interviewStore($request->id,$request->all());
-            if($patient)
+            if($patient) 
             {
                 return redirect(route('interview', $request->id))->withSuccess(__('FirstInterview')."បានជោគជ័យ");
             } 

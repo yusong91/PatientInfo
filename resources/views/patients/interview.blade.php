@@ -521,119 +521,97 @@
 
                 <label class="mb-3">@lang('Vaccination')</label>
 
-                <div class="row justify-content-between mb-4">
-                    <div class="col-md-3 align-self-center">
-                        <div class="form-check form-check-inline">
-                            <input {{ $patient->first_vaccine==1 ? 'checked' : '' }} name="first_vaccine" class="form-check-input vaccine1" type="checkbox" id="vaccine1">
-                            <label class="form-check-label" for="vaccine1">@lang('Vaccine1')</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled1">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input value="{{ getDateFormat($patient->first_vaccine_date) }}" name="first_vaccine_date" type="text" id="vaccine1Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" {{ $patient->first_vaccine==1 ? "" : "disabled" }} >
-                                <label for="floatingVaccineDatee">@lang('VaccineDate')</label>
-                            </div>
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-                                        <path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-                                        <path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled1">
-                        <div class="form-floating">
-                            <select name="first_vaccine_type_id" class="form-control" id="floatingVaccineType1" placeholder="@lang('VaccineType')" {{ $patient->first_vaccine==1 ? "" : "disabled" }}>
-                                <option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-                                @foreach($type_vaccine as $item)
+                <?php $i = 0; ?>
 
-                                    <option {{ $patient->first_vaccine_type_id==$item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->value }}</option>
+                @foreach($vaccination_list as $item)
 
-                                @endforeach
-                            </select>
-                            <label for="floatingVaccineType">@lang('VaccineType')</label>
-                        </div>
-                    </div>
-                </div>
+				<div class="row mb-4">
+					
+					<div class="col-md-4 align-self-center">
+						<div class="form-check form-check-inline">
 
-                <div class="row justify-content-between mb-4">
-                    <div class="col-md-3 align-self-center">
-                        <div class="form-check form-check-inline">
-                            <input {{ $patient->second_vaccine==1 ? 'checked' : '' }} name="second_vaccine" class="form-check-input vaccine2" type="checkbox" id="vaccine2">
-                            <label class="form-check-label" for="vaccine2">@lang('Vaccine2')</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled2">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input value="{{ getDateFormat($patient->second_vaccine_date) }}" name="second_vaccine_date" type="text" id="vaccine2Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" {{ $patient->second_vaccine==1 ? "" : "disabled" }}>
-                                <label for="floatingVaccineDatee">@lang('VaccineDate')</label>
-                            </div>
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-                                        <path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-                                        <path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled2">
-                        <div class="form-floating">
-                            <select name="second_vaccine_type_id" class="form-control" id="floatingVaccineType2" placeholder="@lang('VaccineType')" {{ $patient->second_vaccine==1 ? "" : "disabled" }}>
-                                <option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-                                @foreach($type_vaccine as $item)
+						@if(count($patient_vaccine) > 0)
+							<input {{ $item->key == isset($patient_vaccine[$i]->number_vaccine) ? 'checked' : ''  }} name="{{ $item->key }}" class="form-check-input" type="checkbox" id="{{ $item->key }}">						
+						@else
+							<input name="{{ $item->key }}" class="form-check-input {{ $item->key }}" type="checkbox" id="{{ $item->key }}">
+						@endif
+							<label class="form-check-label" for="{{ $item->key }}">{{ $item->value }}</label>
+						</div>
+					</div>
 
-                                    <option {{  $patient->second_vaccine_type_id==$item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->value }}</option>
+					<div class="col-md-4 {{ $item->key }}">
+						<div class="input-group">
+							<div class="form-floating">
 
-                                @endforeach
-                            </select>
-                            <label for="floatingVaccineType">@lang('VaccineType')</label>
-                        </div>
-                    </div>
-                </div>
+							@if(count($patient_vaccine) > 0)
+								<input name="{{ $item->key }}_date" value="{{ $item->key == isset($patient_vaccine[$i]->number_vaccine) ? getDateFormat($patient_vaccine[$i]->date) : ''  }}" type="text" id="vaccine3Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" {{ $patient->name == 1 ? "" : "" }}>
+							@else
+								<input name="{{ $item->key }}_date" value="" type="text" id="vaccine3Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')">
+							@endif
+								<label for="floatingVaccineDate">@lang('VaccineDate')</label>
+							</div>
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
+										<path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
+										<path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                <div class="row justify-content-between mb-4">
-                    <div class="col-md-3 align-self-center">
-                        <div class="form-check form-check-inline">
-                            <input {{ $patient->third_vaccine==1 ? 'checked' : ''  }} name="third_vaccine" class="form-check-input vaccine3" type="checkbox" id="vaccine3">
-                            <label class="form-check-label" for="vaccine3">@lang('Vaccine3')</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled3">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input value="{{ getDateFormat($patient->third_vaccine_date) }}" name="third_vaccine_date" type="text" id="vaccine3Date" class="form-control" id="floatingVaccineDate" placeholder="@lang('VaccineDate')" {{ $patient->third_vaccine==1 ? "" : "disabled" }}>
-                                <label for="floatingVaccineDatee">@lang('VaccineDate')</label>
-                            </div>
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <svg id="__TEMP__SVG__" xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 22 22">
-                                        <path id="Path_23" data-name="Path 23" d="M0,2.75A2.75,2.75,0,0,1,2.75,0h16.5A2.75,2.75,0,0,1,22,2.75Z" fill="#717171"/>
-                                        <path id="Path_24" data-name="Path 24" d="M0,4.125H22V19.25A2.75,2.75,0,0,1,19.25,22H2.75A2.75,2.75,0,0,1,0,19.25Zm8.938,5.5A1.375,1.375,0,1,0,7.563,8.25,1.375,1.375,0,0,0,8.938,9.625Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,8.25Zm2.75,1.375A1.375,1.375,0,1,0,15.813,8.25,1.375,1.375,0,0,0,17.188,9.625Zm-11,2.75A1.375,1.375,0,1,1,4.813,11,1.375,1.375,0,0,1,6.188,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,8.938,13.75Zm5.5-1.375A1.375,1.375,0,1,1,13.063,11,1.375,1.375,0,0,1,14.438,12.375Zm2.75,1.375a1.375,1.375,0,1,0-1.375-1.375A1.375,1.375,0,0,0,17.188,13.75Zm-11,2.75a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,6.188,16.5Zm2.75,1.375A1.375,1.375,0,1,0,7.563,16.5,1.375,1.375,0,0,0,8.938,17.875Zm5.5-1.375a1.375,1.375,0,1,1-1.375-1.375A1.375,1.375,0,0,1,14.438,16.5Z" fill="#717171" fill-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 form-disabled3">
-                        <div class="form-floating">
-                            <select name="third_vaccine_type_id" class="form-control" id="floatingVaccineType3" placeholder="@lang('VaccineType')" {{ $patient->third_vaccine==1 ? "" : "disabled" }}>
-                                <option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
-                                @foreach($type_vaccine as $item)
+                    <?php $list = []; ?>
 
-                                    <option {{ $patient->third_vaccine_type_id==$item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->value }}</option>
+					<div class="col-md-4 {{ $item->key }}">
+						<div class="form-floating">
+							<select name="{{ $item->key }}_type_id" class="form-control" id="floatingVaccineType1" placeholder="@lang('VaccineType')">
+								<option value="0">{{ '--'. __('VaccineType') .'--' }}</option>
 
-                                @endforeach
-                            </select>
-                            <label for="floatingVaccineType">@lang('VaccineType')</label>
-                        </div>
-                    </div>
-                </div>
+								@foreach($type_vaccine as $t_v) 
+
+									@if(count($patient_vaccine) > 0) 
+
+										@foreach($patient_vaccine as $v)
+                                        
+                                            @if($item->key == $v->number_vaccine && $t_v->id == $v->vaccine_type_id)
+
+												<option {{ ($item->key == $v->number_vaccine && $t_v->id == $v->vaccine_type_id) ? 'selected' : '' }} value="{{ $t_v->id }}">{{ $t_v->value }}</option>
+                                                
+                                            @endif
+
+                                            <?php $list[$v->number_vaccine] = $v->number_vaccine; ?>
+
+										@endforeach
+
+                                        @if(isset($list[$t_v->key]) == false)
+
+                                            <option value="{{ $t_v->id }}">{{ $t_v->value }} </option>
+
+                                        @endif
+
+                                        <?php $list[$t_v->key] = $t_v->key; ?>
+
+                                    @else
+
+                                        <option value="{{ $t_v->id }}">{{ $t_v->value }}</option>
+									
+									@endif
+
+                                    
+
+								@endforeach
+
+							</select>
+							<label for="floatingVaccineType">@lang('VaccineType')</label>
+						</div>
+					</div>
+
+				</div> 
+
+				<?php $i++; ?>
+
+			@endforeach
 
                 <label class="mb-3">@lang('Collector')</label>
 
