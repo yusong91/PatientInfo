@@ -142,8 +142,6 @@ class EloquentPatient implements PatientRepository
     public function allPatientByStatus($status)
     {
         return Patient::where('status', $status)->get();
-
-        //->orderBy('created_at', 'asc')
     }
 
     public function find($id)
@@ -172,7 +170,7 @@ class EloquentPatient implements PatientRepository
         if(isset($data["laboratory_file"]))
         { 
             $file = $data["laboratory_file"];
-            $digital_file = Storage::putFile('patients', $file);
+            $digital_file = Storage::putFile('labform', $file);
         }
         $code = '';
         $rowDate = Carbon::now();
@@ -257,7 +255,7 @@ class EloquentPatient implements PatientRepository
         $patient->save();
 
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
-
+ 
         foreach($vaccination_list as $item)
         {
             if(isset($data[$item->key]) == 'on'){

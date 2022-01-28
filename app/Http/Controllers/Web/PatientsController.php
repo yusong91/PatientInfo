@@ -124,7 +124,7 @@ class PatientsController extends Controller
         $positive_date = $request->positive_date; 
         $province = $request->province;
         $district = $request->district;
-        $commune = $request->commune;
+        $commune = $request->commune; 
         $village = $request->village;
         $was_positive = $request->was_positive;
         $labform_province = $request->labform_province;
