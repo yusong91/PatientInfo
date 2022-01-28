@@ -16,7 +16,6 @@ use Vanguard\CommonCode;
 
 class EloquentPatient implements PatientRepository
 {   
-    
     public function paginate($perPage, $search = null, $status = null, $user_id = null)
     {   
     
