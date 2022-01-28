@@ -13,10 +13,6 @@ use Vanguard\Http\Requests\TwoFactor\VerifyTwoFactorTokenRequest;
 use Authy;
 use Vanguard\Repositories\User\UserRepository;
 
-/**
- * Class ProfileController
- * @package Vanguard\Http\Controllers
- */
 class TwoFactorController extends Controller
 {
     public function __construct(UserRepository $users)
@@ -32,12 +28,6 @@ class TwoFactorController extends Controller
         })->only('enable', 'verification', 'resend', 'verify');
     }
 
-    /**
-     * Enable 2FA for currently logged user.
-     *
-     * @param EnableTwoFactorRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function enable(EnableTwoFactorRequest $request)
     {
         $user = $request->theUser();
