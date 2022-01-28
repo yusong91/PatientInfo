@@ -8,11 +8,7 @@ use Vanguard\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    /**
-     * Displays the application dashboard.
-     *
-     * @return Factory|View
-     */
+    
     public function index()
     {
         if (session()->has('verified')) {
