@@ -261,7 +261,7 @@ if(!function_exists('getKeyName')){
 
     if(!function_exists('getUrl')){
         function getUrl($path){
-            $districtCode = "https://storage.googleapis.com/patientsinfo/" . $path;
+            $districtCode = "https://storage.googleapis.com/patientcovid_bucket/" . $path;
             return $districtCode;
         }
     }
