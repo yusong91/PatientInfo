@@ -220,18 +220,32 @@ class PatientsController extends Controller
         }
 
 	}
-    
+     
     //View Superior
     public function report(){
-        
-        $now = Carbon::now()->toDateString();
 
-        $dataentry = Patient::where('step1','!=',null)->where('created_at','>=', $now)->count();
-        $basic = Patient::where('step2','!=',null)->where('created_at','>=', $now)->count();
-        $datatechnical = Patient::where('step3','!=',null)->where('created_at','>=', $now)->count();
-        $fullinterview = Patient::where('step4','!=',null)->where('created_at','>=', $now)->count();
-        $death = Patient::where('death',"on")->count();
-        $research = 0;
+        $now = Carbon::now()->toDateString();
+        $dataentry = Patient::where('status', 1)->count();
+        $basic = Patient::where('status',2)->count();
+        $datatechnical = Patient::where('status',3)->count();
+        $fullinterview = Patient::where('status',4)->count();
+
+        $pie_chart = DB::table('users')->where('parent_id',auth()->user()->id)
+
+                    ->join('patients', 'users.id', '=', 'patients.step4')
+
+                    ->get();
+
+        dd($pie_chart);
+
+
+
+
+
+
+
+
+
 
         $fullUser = User::where('parent_id',auth()->user()->id)->get();
         
@@ -281,8 +295,6 @@ class PatientsController extends Controller
                 $data_bar_chart_past_day_0[] = [$item->value, 0];
             }
         }
-
-        //dd($data_bar_chart_past_day_0);
         
         foreach($variants as $item)
         {
@@ -322,8 +334,6 @@ class PatientsController extends Controller
            $list_variants[] = $variant->value;
        }
        
-        //dd($data_bar_chart_past_day_all[2]);
-
         return view('report.general-report',compact('data_bar_chart_past_day_0', 'patient_all', 'list_variants', 'patient_daily', 'patient_death_all', 'patient_death_daily', 'data_bar_chart_past_day_all'));
     } 
 

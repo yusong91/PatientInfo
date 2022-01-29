@@ -53,7 +53,9 @@ class EloquentPatient implements PatientRepository
 
     public function paginatePatient($perPage, $search = null, $status = null, $user_id = null)
     {   
-        $query = Patient::query();
+        $query = Patient::where('status', 1);
+        
+        //query();
 
         if ($search) {
             $query->where(function ($q) use ($search) {

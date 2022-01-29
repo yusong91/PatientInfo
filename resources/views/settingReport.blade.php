@@ -18,7 +18,7 @@
 {{--    <script type="text/javascript" src="{{asset('assets/js/echarts.min.js')}}"></script>--}}
 
 
-    <style>
+    <style> 
         .highcharts-figure,
         .highcharts-data-table table {
             min-width: 320px;
@@ -140,7 +140,6 @@
                                 <li>{{ $fullinterview }} នាក់</li>
                                 <li>{{ $death }} នាក់</li>
                                 <li>{{ $research }} នាក់</li>
-
 
                         </ul>
                     </td>

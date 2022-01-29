@@ -485,7 +485,15 @@
     "Total_patient":"អ្នកជំងឺកូវីដសរុប",
     "Total_patient_daily":"អ្នកជំងឺកូវីដប្រចាំថ្ងៃ",
     "Total_patient_death":"អ្នកជំងឺកូវីដស្លាប់សរុប",
-    "Total_patient_death_daily":"អ្នកជំងឺកូវីដស្លាប់ប្រចាំថ្ងៃ"
+    "Total_patient_death_daily":"អ្នកជំងឺកូវីដស្លាប់ប្រចាំថ្ងៃ",
+
+    "Dataentry":"ទម្រង់ធ្វើសំណាក",
+    "Basic_interview":"សម្ភាស៍បឋម",
+    "Datatechnical":"ទិន្នន័យបច្ចេកទេស",
+    "Full_interview":"សម្ភាស៍ពេញ",
+    "Superior_pie_chart_title":"ទិន្នន័យសម្ភាស៍សរុប"
+
+    
 
 
 }

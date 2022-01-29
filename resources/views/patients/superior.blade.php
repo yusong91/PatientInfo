@@ -10,7 +10,6 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-
 {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
 {{--    <link href="{{asset('assets/css/components.min.css')}}" rel="stylesheet" type="text/css">--}}
 {{--    <script type="text/javascript" src="{{asset('assets/js/jquery.min.js')}}"></script>--}}
@@ -109,76 +108,80 @@
 
 @section('content')
 
-    <div class="row"> 
+    <div class="row">  
+ 
         <div class="col-xl-3 col-md-6"> 
-            <div class="card widget shadow rounded">
-                <div class="card-body">
+            <div class="card widget">
+                <div class="card-body shadow">
                     <div class="row">
-                        <div class="p-2 text-danger flex-1">
-                            <i class="fa fa-users fa-3x"></i>
+                        <div class="p-2 text-primary flex-1">
+                            <i class="fa fa-users fa-2x"></i>
                         </div>
-
+    
                         <div class="pr-2">
-                            <h5 class="text-right">ទម្រង់ធ្វើសំណាក</h5>
-                            <div class="text-muted pr-5">{{ $dataentry }}</div>
+                            <h2 class="text-center">{{ $dataentry }}</h2>
+                            <div class="text-muted">@Lang('Dataentry')</div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6"> 
+            <div class="card widget">
+                <div class="card-body shadow">
+                    <div class="row">
+                        <div class="p-2 text-info flex-1">
+                            <i class="fa fa-users fa-2x"></i>
+                        </div>
+    
+                        <div class="pr-2">
+                            <h2 class="text-center">{{ $basic }}</h2>
+                            <div class="text-muted">@Lang('Basic_interview')</div>
                         </div>
                     </div>
                 </div> 
             </div>
         </div>
+
+        <div class="col-xl-3 col-md-6"> 
+            <div class="card widget">
+                <div class="card-body shadow">
+                    <div class="row">
+                        <div class="p-2 text-warning flex-1">
+                            <i class="fa fa-users fa-2x"></i>
+                        </div>
     
-        <div class="col-xl-3 col-md-6">
-            <div class="card widget shadow rounded">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="p-2 text-danger flex-1">
-                            
-                            <i class="fa fa-user fa-3x"></i>
-                        </div>
-
                         <div class="pr-2">
-                            <h5 class="text-right">សម្ភាស៍បឋម</h5>
-                            <div class="text-muted pr-5">{{ $basic }}</div>
+                            <h2 class="text-center">{{ $datatechnical }}</h2>
+                            <div class="text-muted">@Lang('Datatechnical')</div>
                         </div>
                     </div>
-                </div>
-            </div> 
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card widget shadow rounded"> 
-                <div class="card-body">
-                    <div class="row">
-                        <div class="p-2 text-primary flex-1">
-                            <i class="fa fa-user fa-3x"></i>  <!-- fa-user-slash -->
-                        </div>
-
-                        <div class="pr-2">
-                            <h5 class="text-right">ទិន្នន័យបច្ចេកទេស</h5>
-                            <div class="text-muted pr-5">{{ $datatechnical }}</div>
-                        </div>
-                    </div>
-                </div>
+                </div> 
             </div>
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <div class="card widget shadow rounded">
-                <div class="card-body">
+            <div class="card widget"> 
+                <div class="card-body shadow">
                     <div class="row">
                         <div class="p-2 text-success flex-1">
-                            <i class="fa fa-user fa-3x"></i>
+                            <i class="fa fa-users fa-2x"></i>  <!-- fa-user-slash -->
                         </div>
 
                         <div class="pr-2">
-                            <h5 class="text-right">សម្ភាស៍ពេញ</h5>
-                            <div class="text-muted pr-5">{{ $fullinterview }}</div>
-                        </div>
+                            <h2 class="text-center">{{ $fullinterview }}</h2>
+                            <div class="text-muted">@Lang('Full_interview')</div>
+                        </div> 
                     </div>
                 </div>
-            </div>
-        </div> 
+        </div>
 
+        
+
+    </div>
+
+    
     </div>
 
     <div class="row">
@@ -237,7 +240,7 @@
                 <thead class="bg-primary">
                 <tr>
                     <th>
-                        ចំនួនកូនក្រុម 
+                        @Lang('Superior_pie_chart_title') 
                     </th>
                     
                 </tr>
@@ -415,9 +418,13 @@
                 var data = google.visualization.arrayToDataTable([
                     ['', ''],
                     ['', ''],
-                    ['Disconnected', disableG],
+                    ['បិទករណី', disableG],
                     ['Deactivate', deactivateG],
-                    ['Connected', activeG] 
+                    ['រួចរាល់', activeG],
+                    ['សម្ភាស៍បន្ថែម', activeG],
+                    ['', 0],
+                    ['ស្រាវជ្រាវ', activeG]
+
                 ]);
 
                 var options = {
