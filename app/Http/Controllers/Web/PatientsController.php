@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace Vanguard\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
