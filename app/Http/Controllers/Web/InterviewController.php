@@ -44,8 +44,6 @@ class InterviewController extends Controller
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
         $patient_vaccine = getPatientVaccine($id);
 
-
-
         return view('patients.interview',compact('patient_vaccine','vaccination_list','patient', 'interviewStatusList', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 

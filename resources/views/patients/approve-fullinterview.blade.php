@@ -196,7 +196,7 @@
 		-------->
 		<section class="block-profile">
 			<p class="mb-0 text-center">
-				ប្រវត្តិធ្វើដំណើរអ្នកជំងឺ <br />
+				ប្រវត្តិធ្វើដំណើរអ្នកជំងឺ<br />
 				លេខកូដអ្នកជំ់ងឺ៖ <span>{{ $patient->code}}</span>
 			</p>
 			<div class="profile mx-auto mt-2" style="width: 200px; height: 200px;">
@@ -330,64 +330,41 @@
 						<span>{{ $patient->travel_id }}</span>
 					</div>
 				</li>
-				
-				<li class="row">
-					<div class="col d-flex">
-						ចាក់វ៉ាក់សាំងលើកទី១
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span> {{ getDateFormat($patient->first_vaccine_date) ? 'បានចាក់(' . getDateFormat($patient->first_vaccine_date) .')' : 'មិនបានចាក់' }} </span>
-					</div>
-				</li>
-				<li class="row">
-					<div class="col d-flex">
-						ប្រភេទវ៉ាក់សាំងលើកទី១
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span>{{  $kind_first_vaccine->value ?? 'គ្មាន' }}</span>
-					</div>
-				</li>
 
-				<li class="row">
-					<div class="col d-flex">
-						ចាក់វ៉ាក់សាំងលើកទី២
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span>{{ getDateFormat($patient->second_vaccine_date) ? 'បានចាក់(' . getDateFormat($patient->second_vaccine_date) .')' : 'មិនបានចាក់' }}</span>
-					</div>
-				</li>
-				<li class="row">
-					<div class="col d-flex">
-						ប្រភេទវ៉ាក់សាំងលើកទី២
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span>{{ $kind_second_vaccine->value ?? 'គ្មាន'}}</span>
-					</div>
-				</li>
+                @foreach($vaccination_list as $item)
 
-				<li class="row">
-					<div class="col d-flex">
-						ចាក់វ៉ាក់សាំងលើកទី៣
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span>{{ getDateFormat($patient->third_vaccine_date) ? 'បានចាក់(' . getDateFormat($patient->third_vaccine_date) .')' : 'មិនបានចាក់' }}</span>
-					</div>
-				</li>
-				<li class="row">
-					<div class="col d-flex">
-						ប្រភេទវ៉ាក់សាំងលើកទី៣
-						<span class="ml-auto">៖</span>
-					</div>
-					<div class="col-sm-8">
-						<span>{{ $kind_third_vaccine->value ?? 'គ្មាន'}}</span>
-					</div>
-				</li>
-				
+					<li class="row">
+						<div class="col d-flex">
+							{{ $item->value }}
+							<span class="ml-auto">៖</span>
+						</div>
+						<div class="col-sm-8">
+							@foreach($patient_vaccine as $v)
+								@if($item->key == $v->number_vaccine  )
+									<span> {{ getDateFormat($v->date) ? 'បានចាក់ (' . getDateFormat($v->date) .')' : 'មិនបានចាក់' }} </span>
+								@endif
+							@endforeach
+							
+						</div>
+					</li>
+
+					<li class="row">
+						<div class="col d-flex">
+							ប្រភេទវ៉ាក់សាំងលើកទី {{ $loop->index + 1 }}
+							<span class="ml-auto">៖</span>
+						</div>
+						<div class="col-sm-8"> 
+							@foreach($patient_vaccine as $p_v)
+								@foreach($type_vaccine as $t_v)
+									@if($item->key == $p_v->number_vaccine && $t_v->id == $p_v->vaccine_type_id )
+										<span> {{ $t_v->value }} </span>	
+									@endif
+								@endforeach
+							@endforeach
+						</div>
+					</li>
+
+			    @endforeach
 			</ul>
 			២.ប្រវត្តិជំងឺកូវីដ១៩
 			<ul class="list-dash">

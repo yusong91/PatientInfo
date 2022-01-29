@@ -608,7 +608,7 @@
 
 				<?php $i++; ?>
 
-			@endforeach
+			    @endforeach
 
                 <label class="mb-3">@lang('Collector')</label>
 

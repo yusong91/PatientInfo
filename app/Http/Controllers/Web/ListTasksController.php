@@ -217,13 +217,14 @@ class ListTasksController extends Controller
                 break;
         }
     } 
+    
+    //BASIC INTERVIEW
+    // public function basicInterview($id)
+    // {
+    //     $patient = $this->patient->findPatientWithBTSQrcode($id);
 
-    public function basicInterview($id)
-    {
-        $patient = $this->patient->findPatientWithBTSQrcode($id);
-
-        return view('list-tasks.basic-interview', compact('patient'));
-    }
+    //     return view('list-tasks.basic-interview', compact('patient'));
+    // }
 
     public function dataTechnical($id)
     {
@@ -231,7 +232,8 @@ class ListTasksController extends Controller
 
         return view('list-tasks.data-technical', compact('patient'));
     }
- 
+    
+    //FULL INTERVIEW
     public function fullInterview($id) 
     {
         $patient = $this->patient->findPatientWithBTSQrcode($id);
@@ -258,15 +260,10 @@ class ListTasksController extends Controller
         $family_member = getConmunCode('family_member');
         $interview_status = getPatientCommond($patient->interview_status);
         $interviewStatusList = getConmunCode('status_interview');
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);
 
-        return view('list-tasks.test_full-interview', compact('patient', 'interviewStatusList', 'interview_status', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant', 'patient', 'patientHistory','patientRelated','patientRelatedList', 'family_member', 'patientFamilyList', 'patientTravelList', 'health_history'));
- 
-        // return view('list-tasks.full-interview', compact(
-        //     'patient',
-        //     'patientHistory', 
-        //     'patientRelated',
-        //     'patientRelatedList',
-        // ));
+        return view('list-tasks.full-interview', compact('vaccination_list', 'patient_vaccine', 'patient', 'interviewStatusList', 'interview_status', 'health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant', 'patient', 'patientHistory','patientRelated','patientRelatedList', 'family_member', 'patientFamilyList', 'patientTravelList', 'health_history'));
     } 
 
     public function fullInterviewStore(CreatePatientFullinterviewRequest $request)

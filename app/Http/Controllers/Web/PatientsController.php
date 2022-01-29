@@ -105,8 +105,6 @@ class PatientsController extends Controller
    
 	public function store(CreatePatientRequest $request)
 	{   
-        //dd($request->all());
-
         $key = ['name'=>$request->input('name'), 'phone'=>$request->input('phone'), 'gender'=>$request->input('gender')];
         
         $duplicate = $this->patient->checkDuplicate($key);
@@ -168,9 +166,6 @@ class PatientsController extends Controller
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
         $patient_vaccine = getPatientVaccine($id);
         
-
-        //dd([$vaccination_list, $patient_vaccine]);
-
         return view('patients.edit', compact('edit', 'patient_vaccine', 'vaccination_list','health_facility','reason_testing', 'clinical_symptom', 'type_specimen', 'gender', 'lab_center', 'number_sample', 'vaccination', 'type_vaccine', 'covid_patient', 'provinces', 'nation', 'related_patient', 'variant'));
     }
 
@@ -250,7 +245,7 @@ class PatientsController extends Controller
         
         return view('patients.superior',compact('patients','fullUser', 'dataentry', 'basic', 'datatechnical', 'fullinterview'));
     }
-
+ 
     public function settingReport(){ 
 
         // alpha 280, beta 281, gamma 282, delta 283
@@ -340,46 +335,30 @@ class PatientsController extends Controller
             'sex', 'nation', 'symptom', 'objectTypes', 'hospital',
             'related', 'family'
         ])->first(); 
-
+ 
         $family_member = getConmunCode('family_member');
-
         $clinical_symptom = getConmunCode('clinical_symptom');
-
         $patient_family = getPatientFamily($patient->id);
-
         $patient_related = getPatientRelated($patient->id);
-
         $patient_travel = getPatientTravel($patient->id);
-
         $health_history = getConmunCode('health_history');
-
         $variant = getPatientCommond($patient->virus_type);
-
         $test_reason = getPatientCommond($patient->test_reason);
-
         $health_facility = getPatientCommond($patient->health_facility_id);
-
         $was_positive = getPatientCommond($patient->was_positive);
-
         $gender = getPatientCommond($patient->gender);
-
         $nation = getPatientCommond($patient->nation_id);
-
-        $kind_first_vaccine = getPatientCommond($patient->first_vaccine_type_id);
-
-        $kind_second_vaccine = getPatientCommond($patient->second_vaccine_type_id);
-
-        $kind_third_vaccine = getPatientCommond($patient->third_vaccine_type_id);
-
         $province = getLocationCodeAddress($patient->province);
-
         $district = getLocationCodeAddress($patient->district);
-
         $commune = getLocationCodeAddress($patient->commune);
-
         $village = getLocationCodeAddress($patient->village);
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($patient_id); 
+        $type_vaccine = CommonCode::commonCode('type_vaccine')->first()->children;
+
+        //dd($vaccination_list);
                  
-        return view('patients.approve-fullinterview', compact('patient','province','district','commune','village','family_member','interviewStatusList', 'kind_third_vaccine', 'kind_second_vaccine', 'kind_first_vaccine', 'nation', 'gender', 'clinical_symptom', 'patient_family', 'patient_related', 'patient_travel', 'health_history', 'variant', 'test_reason', 'health_facility', 'was_positive'));
+        return view('patients.approve-fullinterview', compact('type_vaccine', 'vaccination_list', 'patient_vaccine', 'patient','province','district','commune','village','family_member','interviewStatusList', 'nation', 'gender', 'clinical_symptom', 'patient_family', 'patient_related', 'patient_travel', 'health_history', 'variant', 'test_reason', 'health_facility', 'was_positive'));
     }
 
     //Superior finish full interview 
