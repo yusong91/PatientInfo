@@ -254,9 +254,12 @@ class PatientsController extends Controller
         $fullUser = User::where('parent_id',auth()->user()->id)->get();
         
         $ids = User::where('parent_id',auth()->user()->id)->pluck('id');
-        
+
+        $test = Patient::where('process_by_step4', auth()->user()->id)->count();
+
         foreach ($fullUser as $item){
-            $item->countData = Patient::where('step4',$item->id)->count();
+
+            $item->countData = [Patient::where('step4',$item->id)->count(), Patient::where(['status'=>3, 'process_by_step4'=> $item->id])->count()];
         }
         
         $patients = Patient::whereIn('step1',$ids)->orwhereIn('step2',$ids)->orwhereIn('step3',$ids)->orwhereIn('step4',$ids)->paginate(10);

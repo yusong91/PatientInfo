@@ -213,7 +213,7 @@
                     <td>
                         <ul class="user-list list-unstyled">
                             @foreach($fullUser as $item)
-                                <li>{{ $item->countData }} នាក់</li>
+                                <li>{{ $item->countData[1] }} នាក់</li>
                             @endforeach
 
                         </ul>
@@ -222,7 +222,7 @@
                     <td>
                         <ul class="user-list list-unstyled">
                             @foreach($fullUser as $item)
-                                <li>{{ $item->countData }} នាក់</li>
+                                <li>{{ $item->countData[0] }} នាក់</li>
                             @endforeach
 
                         </ul>
@@ -399,7 +399,6 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script> 
-
 
         var done_full = <?php echo $done_full; ?>;
         var finist = <?php echo $finish; ?>;
