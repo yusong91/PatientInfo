@@ -100,7 +100,7 @@
         }
     </style>
 @endsection
-@section('breadcrumbs')
+@section('breadcrumbs') 
     <li class="breadcrumb-item active">
         @lang('Patient Report')
     </li>
@@ -110,7 +110,7 @@
 
     <div class="row">  
  
-        <div class="col-xl-3 col-md-6"> 
+        <div class="col-md-3"> 
             <div class="card widget">
                 <div class="card-body shadow">
                     <div class="row">
@@ -127,7 +127,8 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6"> 
+        
+        <div class="col-md-3"> 
             <div class="card widget">
                 <div class="card-body shadow">
                     <div class="row">
@@ -144,7 +145,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6"> 
+        <div class="col-md-3"> 
             <div class="card widget">
                 <div class="card-body shadow">
                     <div class="row">
@@ -161,7 +162,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-md-3">
             <div class="card widget"> 
                 <div class="card-body shadow">
                     <div class="row">
@@ -176,12 +177,8 @@
                     </div>
                 </div>
         </div>
-
-        
-
     </div>
 
-    
     </div>
 
     <div class="row">
@@ -220,7 +217,7 @@
                             @endforeach
 
                         </ul>
-                    </td>
+                    </td> 
 
                     <td>
                         <ul class="user-list list-unstyled">
@@ -394,19 +391,19 @@
     @endphp
 
 @stop
-
+ 
 @section('scripts')
 
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-
     <script> 
 
-        var activeG = 2;
-        var disableG = 2;
-        var deactivateG = 2;
+
+        var done_full = <?php echo $done_full; ?>;
+        var finist = <?php echo $finish; ?>;
+        var research = <?php echo $research; ?>;
         
         $(document).ready(function(){
 
@@ -418,12 +415,14 @@
                 var data = google.visualization.arrayToDataTable([
                     ['', ''],
                     ['', ''],
-                    ['បិទករណី', disableG],
-                    ['Deactivate', deactivateG],
-                    ['រួចរាល់', activeG],
-                    ['សម្ភាស៍បន្ថែម', activeG],
+                    ['បិទករណី', 0],
                     ['', 0],
-                    ['ស្រាវជ្រាវ', activeG]
+                    ['រួចរាល់', finist],
+                    ['សម្ភាស៍បន្ថែម', 0],
+                    ['', 0],
+                    ['ស្រាវជ្រាវ', research],
+                    ['សម្ភាស៍ពេញ', done_full],
+
 
                 ]);
 

@@ -59,27 +59,30 @@ class ListTasksController extends Controller
 
     public function index()
     {   
+        
         $status = null;
+        $process_by = 1;
         $role_id = auth()->user()->role_id;
 
         if ($role_id == 4) {
             $status = 1;
+            $process_by_step = 2;
         } elseif ($role_id == 5) {
             $status = 2;
+            $process_by_step = 3;
         } elseif ($role_id == 6) {
             $status = 3;
+            $process_by_step = 4;
         } elseif ($role_id == 9) {
             $status = 5;
+            $process_by_step = 5;
         } else {
             $status = null;
         }
 
-        $patients = $this->patient->paginate(
-            $perPage = 500,
-            null,  
-            $status,
-            auth()->user()->id
-        ); 
+        //dd($status);
+
+        $patients = $this->patient->listTast($status, null, null, $process_by_step);
 
         return view('list-tasks/list-tasks', compact('patients', 'role_id'));
     }

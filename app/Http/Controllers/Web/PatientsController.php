@@ -176,7 +176,7 @@ class PatientsController extends Controller
         {
             return redirect(route('patients'))->withSuccess("កែប្រែបានជោគជ័យ");
         }
-    }
+    } 
  
     public function delete($id)
     {
@@ -221,31 +221,35 @@ class PatientsController extends Controller
 
 	}
      
-    //View Superior
+    //View Superior status = 8 finish
     public function report(){
 
         $now = Carbon::now()->toDateString();
         $dataentry = Patient::where('status', 1)->count();
-        $basic = Patient::where('status',2)->count();
+        $basic = Patient::where('status', 2)->count();
         $datatechnical = Patient::where('status',3)->count();
-        $fullinterview = Patient::where('status',4)->count();
+        $fullinterview = Patient::where('status',4)->count(); 
 
-        $pie_chart = DB::table('users')->where('parent_id',auth()->user()->id)
+        $done_full = DB::table('users')->where('parent_id',auth()->user()->id)
+                        ->join('patients', 'users.id', '=', 'patients.step4')
+                        ->where('patients.status', 4)
+                        ->count(); 
 
-                    ->join('patients', 'users.id', '=', 'patients.step4')
+        $research = DB::table('users')->where('parent_id',auth()->user()->id)
+                        ->join('patients', 'users.id', '=', 'patients.step4')
+                        ->where('patients.status', 5)
+                        ->where('patients.source_research', 2)
+                        ->count();
 
-                    ->get();
+        $finish = DB::table('users')->where('parent_id',auth()->user()->id)
+                        ->join('patients', 'users.id', '=', 'patients.step4')
+                        ->where('patients.status', 8)
+                        ->count();
 
-        dd($pie_chart);
-
-
-
-
-
-
-
-
-
+        $close_case = DB::table('users')->where('parent_id',auth()->user()->id)
+                        ->join('patients', 'users.id', '=', 'patients.step4')
+                        ->where('patients.status', 8)
+                        ->count();
 
         $fullUser = User::where('parent_id',auth()->user()->id)->get();
         
@@ -257,7 +261,7 @@ class PatientsController extends Controller
         
         $patients = Patient::whereIn('step1',$ids)->orwhereIn('step2',$ids)->orwhereIn('step3',$ids)->orwhereIn('step4',$ids)->paginate(10);
         
-        return view('patients.superior',compact('patients','fullUser', 'dataentry', 'basic', 'datatechnical', 'fullinterview'));
+        return view('patients.superior',compact('research', 'done_full', 'finish', 'patients','fullUser', 'dataentry', 'basic', 'datatechnical', 'fullinterview'));
     }
  
     public function settingReport(){ 

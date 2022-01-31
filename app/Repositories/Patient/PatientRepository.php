@@ -7,6 +7,8 @@ use Vanguard\Patient;
 interface PatientRepository
 {
 
+    public function listTast($status_id = 1, $step = null, $step_id = null, $process_by_step = null);
+
     public function getByStep($search = null,$status = 1,$step);
     
     public function getByProcess($search = null,$status = 1,$step,$process);

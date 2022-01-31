@@ -16,9 +16,25 @@ use Vanguard\CommonCode;
 
 class EloquentPatient implements PatientRepository
 {   
+
+    //step6=interiew again, step5=research
+
+    public function listTast($status_id = 1, $step = null, $step_id = null, $process_by_step = 1)
+    {
+        $query = Patient::where(['status'=>$status_id, 'process_by_step'.$process_by_step => null]);
+
+        if ($step && $step_id) {
+            $query->where(function ($q) use ($step, $step_id) {
+                $q->where($step, $step_id);
+            });
+        } 
+        $result = $query->orderBy('created_at', 'desc')->get();
+        return $result;
+    }
+
     public function paginate($perPage, $search = null, $status = null, $user_id = null)
     {   
-    
+     
         $query = Patient::query();
 
         //$query = Patient::where(['status'=>$status, 'process_by_step'.($status+1)=>null]);
@@ -1158,7 +1174,7 @@ class EloquentPatient implements PatientRepository
 
             $patient->full_to_search_description = $search_description;
 
-            $patient->step4 = null;
+            $patient->step4 = auth()->user()->id;
 
             $patient->process_by_step4 = null;
 

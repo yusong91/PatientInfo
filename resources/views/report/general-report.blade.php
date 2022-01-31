@@ -231,7 +231,7 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-<script> 
+<script>  
 
     var data_bar_chart = <?php echo collect($data_bar_chart_past_day_all); ?>;
     var bar_chart = Array.from(data_bar_chart);
