@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Vanguard\KhDate;
 use Vanguard\CommonCode;
+use Google\Cloud\Storage\StorageClient;
 
 if(!function_exists('getConmunCode')){
     function getConmunCode($key){
@@ -146,15 +147,13 @@ if(!function_exists('downloadPatientReport')){
         $options = ['gs' => ['acl' => 'public-wite']];
         $context = stream_context_create($options);
         $fileName = "public_file.pdf";
-        file_put_contents($fileName, PDF::loadHtml($pdfViewer)->download($fileName), 0, $context);
+        //file_put_contents($fileName, PDF::loadHtml($pdfViewer)->download($fileName), 0, $context);
+        //$storage = new StorageClient(); 
+        //Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName));
+        //$file = fopen($source, 'write');
 
-        //$publicUrl = CloudStorageTools::getPublicUrl($fileName, false);
-
-        $storage = new StorageClient();
-        $file = fopen($source, 'write');
-        $bucket = $storage->bucket('patientsinfo');
-        $object = $bucket->download('', PDF::loadHtml($pdfViewer)->download($fileName));
-
+        $bucket = $storage->bucket('patientcovid_bucket');
+        $object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));
         
     }
 }
@@ -237,7 +236,7 @@ if(!function_exists('getKeyName')){
         if(!isset($keyName[$firstName]) || !isset($keyName[$lastName])){
 
             return 'AA';
-        }
+        } 
 
         return $keyName[strtoupper($firstName)] . $keyName[strtoupper($lastName)];
     }

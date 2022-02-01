@@ -362,7 +362,6 @@
 		<div style="padding-top:20px;">៣.ទីតាំង</div>
 		<table class="table-no-border table-striped">
 			<tbody class="py-2">
-
 				<tr>
 					<td style="width:175">ទីតាំងរស់នៅបច្ចុបប្បន្ន</td>
 					<td style="width:auto">៖</td>
@@ -370,12 +369,9 @@
 						<span>{{ $patient->address }}</span>
 					</div></td>
 				</tr>
-
-				
-
 			</tbody>
 		</table>
-		
+
 		<div style="padding-top:20px;">តើអ្នករស់នៅជាមួយអ្នកណា?</div>
 		<table class="table table-striped">
 			<tbody class="py-2">
