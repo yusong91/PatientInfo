@@ -344,7 +344,7 @@ class PatientsController extends Controller
         return view('report.general-report',compact('data_bar_chart_past_day_0', 'patient_all', 'list_variants', 'patient_daily', 'patient_death_all', 'patient_death_daily', 'data_bar_chart_past_day_all'));
     } 
 
-    public function approveFullInterivew($patient_id)
+    public function approveFullInterivew($patient_id) 
     {   
         $interviewStatusList = getConmunCode('status_interview');
 
@@ -370,10 +370,8 @@ class PatientsController extends Controller
         $commune = getLocationCodeAddress($patient->commune);
         $village = getLocationCodeAddress($patient->village);
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
-        $patient_vaccine = getPatientVaccine($patient_id); 
+        $patient_vaccine = getPatientVaccine($patient_id);  
         $type_vaccine = CommonCode::commonCode('type_vaccine')->first()->children;
-
-        //dd($vaccination_list);
                  
         return view('patients.approve-fullinterview', compact('type_vaccine', 'vaccination_list', 'patient_vaccine', 'patient','province','district','commune','village','family_member','interviewStatusList', 'nation', 'gender', 'clinical_symptom', 'patient_family', 'patient_related', 'patient_travel', 'health_history', 'variant', 'test_reason', 'health_facility', 'was_positive'));
     }

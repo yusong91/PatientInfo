@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('page-title', __('Patient Report'))
-@section('page-heading', __('Patient Report'))
+@section('page-heading', __('Patient Report')) 
 
 @section('styles')
 
@@ -194,9 +194,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <!-- <ul class="user-list list-unstyled"><li>test</li></ul> -->
                         <div id="barchart_material" style="width: auto"></div>
-
                     </td>   
                 </tr>
             </tbody>

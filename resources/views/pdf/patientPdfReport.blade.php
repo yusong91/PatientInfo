@@ -65,7 +65,13 @@
 		border-collapse: collapse;
 	}
 
+	.title {
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+
 </style>
+
 <div class="content mx-auto">
 	<table style="width: 100%">
 		<tbody>
@@ -109,7 +115,7 @@
 	<section class="block-profile">
 		<p class="mb-0 text-center">
 			ប្រវត្តិធ្វើដំណើរអ្នកជំងឺ <br />
-			លេខកូដអ្នកជំ់ងឺ៖ <span>{{ $patient->code }}</span>
+			លេខកូដអ្នកជំ់ងឺ៖ <span>{{ $patient->code}}</span>
 		</p>
 		<div class="profile mx-auto mt-2" style="width: 200px; height: 200px;">
 			<div class="embed-responsive embed-responsive-1by1">
@@ -122,60 +128,94 @@
 	------->
 	<section class="info mt-5">
 	<div>
-		ថ្ងៃខែឆ្នាំម៉ោងទទួលទម្រង់មន្ទីរពិសោធន៍៖ <span class="mx-2">{{ $patient->form_date }}</span> ម៉ោង <span>00:00</span> លេខកូដLabForm <span>គ្មាន</span>
+		ថ្ងៃខែឆ្នាំម៉ោងទទួលទម្រង់មន្ទីរពិសោធន៍៖ <span class="mx-2">{{ getDateFormat($patient->form_date)}}</span> លេខកូដLabForm <span>គ្មាន</span>
 	</div>
 	<div>
-		លេខកូដមន្ត្រីកាន់ករណី៖ <span>G314</span> <br />
-		កាលបរិឆ្នេទសម្ភាសន៍៖ <span>{{ $patient->updated_at }}</span> <br />
-		ធ្វើបច្ចុប្បន្នភាព៖ <span>20.07.2021</span>
+			លេខកូដមន្ត្រីកាន់ករណី៖ <span>G314</span> <br />
+			កាលបរិឆ្នេទសម្ភាសន៍៖ <span>{{ getDateFormat($patient->updated_at) }}</span> <br />
+			ធ្វើបច្ចុប្បន្នភាព៖ <span>{{ getDateFormat($patient->updated_at) }}</span>
 	</div>
 	<div>
 		
-		១.ព័ត៌មានផ្ទាល់ខ្លួន
-
+		<div style="padding-top:20px;">១.ព័ត៌មានផ្ទាល់ខ្លួន</div>
 		<table class="table-no-border table-striped">
 			<tbody class="py-2">
 
 				<tr>
 					<td style="width:175">- ឈ្មោះ</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->name }}</td>
+					<td><div class="col-sm-8 d-flex justify-content-between">
+						<span>{{ $patient->name }}</span>
+						<span>
+							ឈ្មោះ (សំម្ភាសន៍ជាក់ស្តែង) ៖ <span>{{ $patient->real_name }}</span>
+						</span>
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ភេទ</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->sex->value }}</td>
+					<td><span>{{ $gender->value }}</span></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ជនជាតិ</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->nation->value }}</td>
+					<td><span>{{ $nation->value }}</span></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ថ្ងៃខែឆ្នាំកំណើត</td>
 					<td style="width:auto">៖</td>
-					<td>{{ getDateFormat($patient->dob) }}</td>
+					<td><div class="col-sm-8 d-flex justify-content-between">
+						<span>{{ getDateFormat($patient->dob) ? getDateFormat($patient->dob) : 'គ្មាន' }}</span>
+						<span>
+						ថ្ងៃខែឆ្នាំកំណើត (សំម្ភាសន៍ជាក់ស្តែង) ៖ <span>{{ getDateFormat($patient->real_dob) }}</span>
+						</span>
+					</div></td>
+				</tr>
+
+				<tr>
+					<td style="width:175">- លេខទូរសព្ទ</td>
+					<td style="width:auto">៖</td>
+					<td><div class="col-sm-8 d-flex justify-content-between">
+						<span>{{$patient->phone}}</span>
+						<span>
+						លេខទូរសព្ទ (សំម្ភាសន៍ជាក់ស្តែង) ៖ <span>{{ $patient->real_phone }}</span>
+						</span>
+					</div></td>
+				</tr>
+
+				<tr>
+					<td style="width:175">- លេខទូរសព្ទ(ខ្សែទីពី)</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{$patient->real_phone ?? 'គ្មាន'}}</span></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- មុខរបរ</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->job }}</td>
+					<td><span>{{ $patient->job }}</span></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- អាសយដ្ឋានអចិន្ត្រៃយ៍</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->address }} {{getLabelVillage($patient->village)}} {{getLabelCommune($patient->commune)}} {{getLabelDistrict($patient->district)}} </td>
+					<td><div class="col-sm-8">
+						<span> ខេត្ត{{ $province->name_kh ?? ' គ្មាន'}}  ស្រុក{{ $district->name_kh ?? ' គ្មាន'}} ឃុំ{{ $commune->name_kh ?? ' គ្មាន'}} ភូមិ{{ $village->name_kh ?? ' គ្មាន'}}</span>
+					</div></td>
+				</tr>
+
+				<tr>
+					<td style="width:175">- បញ្ដាញសង្គម</td>
+					<td style="width:auto">៖</td>
+					<td><span>គ្មាន</span></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- អត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</td>
 					<td style="width:auto">៖</td>
-					<td></td>
+					<td><span>{{ $patient->travel_id }}</span></td>
 				</tr>
 
 				<tr>
@@ -190,35 +230,70 @@
 					<td>1 {{ getDateFormat($patient->first_vaccine_date) }}, 2 {{ getDateFormat($patient->second_vaccine_date) }}, 3 {{ getDateFormat($patient->third_vaccine_date) }}</td>
 				</tr>
 
-				<tr>
-					<td style="width:175">- ទីតាំងចាក់វ៉ាក់សាំង</td>
-					<td style="width:auto">៖</td>
-					<td></td>
-				</tr>
+				@foreach($vaccination_list as $item)
+
+					<tr>
+						<td style="width:175">- {{ $item->value }}</td>
+						<td style="width:auto">៖</td>
+						<td>
+							<div class="col-sm-8">
+								@foreach($patient_vaccine as $v)
+									@if($item->key == $v->number_vaccine  )
+										<span> {{ getDateFormat($v->date) ? 'បានចាក់ (' . getDateFormat($v->date) .')' : 'មិនបានចាក់' }} </span>
+									@endif
+								@endforeach
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="width:175">- ប្រភេទវ៉ាក់សាំងលើកទី {{ $loop->index + 1 }}</td>
+						<td style="width:auto">៖</td>
+						<td>
+							<div class="col-sm-8"> 
+							@foreach($patient_vaccine as $p_v)
+								@foreach($type_vaccine as $t_v)
+									@if($item->key == $p_v->number_vaccine && $t_v->id == $p_v->vaccine_type_id )
+										<span> {{ $t_v->value }} </span>	
+									@endif
+								@endforeach
+							@endforeach
+							</div>
+						</td>
+					</tr>
+
+			    @endforeach
+
+
 			</tbody>
 		</table>
 
-		២.ប្រវត្តិជំងឺកូវីដ១៩
-		
+		<div style="padding-top:20px;">២.ប្រវត្តិជំងឺកូវីដ១៩</div>
 		<table class="table-no-border table-striped">
 			<tbody class="py-2">
 
 				<tr>
 					<td style="width:175">- ថ្ងៃធ្វើតេស្ដ</td>
 					<td style="width:auto">៖</td>
-					<td>{{ getDateFormat($patient->form_date) }}</td>
+					<td><div class="col-sm-8">
+						<span>{{ getDateFormat($patient->laboratory_date)}}</span>
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- មូលហេតុធ្វើតេស្ដ</td>
 					<td style="width:auto">៖</td>
-					<td></td>
+					<td><div class="col-sm-8">
+						<span>{{ $test_reason->value ?? ''}}</span>
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ទីតាំងធ្វើតេស្ដ</td>
 					<td style="width:auto">៖</td>
-					<td></td>
+					<td><div class="col-sm-8"> 
+						<span>{{ $health_facility->value }}</span>
+					</div></td>
 				</tr>
 
 				<tr>
@@ -230,34 +305,46 @@
 				<tr>
 					<td style="width:175">- ថ្ងៃចេញលិទ្ធផល</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->positive_date }}</td>
+					<td><div class="col-sm-8">
+						<span>{{ getDateFormat($patient->positive_date) }}</span> 
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- កន្លែងធ្វើចត្តាឡីស័ក</td>
 					<td style="width:auto">៖</td>
-					<td></td>
+					<td>គ្មាន</td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ធ្លាប់មានកូវីដ១៩</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $was_positive->value ?? ''}}</td>
+					<td><div class="col-sm-8">
+						<span>{{ $was_positive->value ?? ''}}</span>
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- រោគសញ្ញា</td>
 					<td style="width:auto">៖</td>
-					<td>{{ $patient->symptom }}</td>
+					<td><div class="col-sm-8">
+						@foreach($clinical_symptom as $item)
+							<span class="mr-2">
+								{{ getSymptomReport($item->id,$patient->symptom) ? $item->value : ''}}
+							</span>
+						@endforeach
+					</div></td>
 				</tr>
 
 				<tr>
 					<td style="width:175">- ថ្ងៃចេញរោគសញ្ញា</td>
 					<td style="width:auto">៖</td>
-					<td>{{ getDateFormat($patient->symptom_date) }}</td>
+					<td><div class="col-sm-8">
+						<span>{{ getDateFormat($patient->symptom_date)}}</span>
+					</div></td>
 				</tr>
 
-				<tr>
+				<!-- <tr>
 					<td style="width:175">- កន្លែងព្យាបាល</td>
 					<td style="width:auto">៖</td>
 					<td></td>
@@ -267,32 +354,29 @@
 					<td style="width:175">- ប្រភពសង្យ័យនៃការឆ្លង</td>
 					<td style="width:auto">៖</td>
 					<td></td>
-				</tr>
+				</tr> -->
 
 			</tbody>
 		</table>
 
-		៣.ទីតាំង
-		<ul class="list-dash">
-			<li class="row">
-				<div class="col d-flex">
-					ទីតាំងរស់នៅបច្ចុបប្បន្ន
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span>ផ្ទះលេខ 44 ផ្លូវបេតុង</span>
-				</div>
-			</li>
-			<li class="row">
-				<div class="col d-flex">
-					តើអ្នករស់នៅជាមួយអ្នកណា
-					<span class="ml-auto">?</span>
-				</div>
-				<div class="col-sm-8">
-					 <span>ម្នាក់ឯង</span>
-				</div>
-			</li>
-		</ul>
+		<div style="padding-top:20px;">៣.ទីតាំង</div>
+		<table class="table-no-border table-striped">
+			<tbody class="py-2">
+
+				<tr>
+					<td style="width:175">ទីតាំងរស់នៅបច្ចុបប្បន្ន</td>
+					<td style="width:auto">៖</td>
+					<td><div class="col-sm-8">
+						<span>{{ $patient->address }}</span>
+					</div></td>
+				</tr>
+
+				
+
+			</tbody>
+		</table>
+		
+		<div style="padding-top:20px;">តើអ្នករស់នៅជាមួយអ្នកណា?</div>
 		<table class="table table-striped">
 			<tbody class="py-2">
 
@@ -301,64 +385,65 @@
 					<th>ឈ្មោះ</th>
 					<th>ភេទ</th>
 					<th>អាយុ</th>
+					<th>ត្រូវជា</th>
 					<th>លេខទំនាក់ទំនង</th>
 					<th>ថ្ងៃប៉ះពាល់ចុងក្រោយ</th>
 					<th>កំរិតហានិភ័យ</th>
 					<th>ផ្សេងៗ</th>
 				</tr>
 
-			@forelse ($patient->family as $item)
-				<tr>
-					<td>{{ $loop->iteration }}</td>
-					<td>{{ $item->name }}</td>
-					<td>{{ translateCommonCode($item->gender) }}</td>
-					<td>{{ $item->person_age }}</td>
-					<td>{{ translateCommonCode($item->family_member) }}</td>
-					<td>{{ getDateFormat($patient->last_touch_date) }}</td>
-					<td>{{ $item->phone }}</td>
-					<td>{{ translateCommonCode($item->test_result)  }}</td>
-				</tr>
-			@empty
-				<tr class="text-center">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-        	@endforelse
+				@forelse ($patient_family as $item) 
+					<tr>
+						<td>{{ $loop->iteration }}</td>
+						<td>{{$item->name}}</td>
+						<td>{{ $item->sex->value ?? '' }}</td></td>
+						<td>{{$item->person_age}}</td>
+
+						<td>
+								@foreach ($family_member as $member)
+
+									@if($item->family_member == $member->id)
+										{{ $member->value }} @break
+									@endif
+
+								@endforeach    
+						</td>
+
+						<td>{{$item->phone}}{{ $item->second_phone != null ? '/' : '' }}{{$item->second_phone}}</td>
+						<td>{{getDateFormat($item->last_touch_date)}}</td>
+						<td>{{ $item->result->value ?? '' }}</td></td>
+					</tr>
+
+					@empty 
+					<tr class="text-center">
+						<td colspan="9">@lang('NoData')</td>
+					</tr>
+				@endforelse
 				
 			</tbody>
 		</table>
+
 		<ul class="list-dash">
 			<li>
-				កន្លែងធ្វើការ (អាសយដ្ឋាន អ្នកតំណាង និងលេខទូរស័ព្ទ)
+				កន្លែងធ្វើការ (ឈ្មោះ អាសយដ្ឋាន អ្នកតំណាង និងលេខទូរស័ព្ទ)
 				<ul class="pl-4">
 					<li>
-						
+						{{ $patient->workplace_name ?? 'គ្មាន'}} / {{ $patient->workplace_address ?? 'គ្មាន'}} / {{ $patient->workplace_phone ?? 'គ្មាន'}} 
 					</li>
 				</ul>
-			</li>
+			</li> 
 			<li>
 				តើបុគ្គលិកនៅកន្លែងធ្វើការរបស់អ្នកមានប៉ុន្មាននាក់?
-				<ul class="pl-4">
+				<ul class="pl-4"> 
 					<li>
-						ប្រហែល 20 នាក់
+						{{ $patient->workplace_amount_staff ? $patient->workplace_amount_staff . ' នាក់' : 'គ្មាន' }}
 					</li>
 				</ul>
 			</li>
-			<li>
-				តើអ្នកបាលប៉ះពាល់ជាមួយអ្នកណាខ្លះ នៅកន្លែងធ្វើការរបស់អ្នក?
-				<ul class="pl-4">
-					<li>
-						ប៉ះពាល់ប្រយោសតាមឯកសារច្រើន
-					</li>
-				</ul>
-			</li>
+				
 		</ul>
+
+		<div style="padding-top:20px;">តើអ្នកបាលប៉ះពាល់ជាមួយអ្នកណាខ្លះ នៅកន្លែងធ្វើការរបស់អ្នក?</div>
 		<table class="table">
 			<tbody class="py-2">
 				<tr>
@@ -369,106 +454,124 @@
 					<th>លេខទំនាក់ទំនង</th>
 					<th>ថ្ងៃប៉ះពាល់ចុងក្រោយ</th>
 					<th>កំរិតហានិភ័យ</th>
-					<th>ផ្សេងៗ</th>
+					<th>អាសយដ្ឋាន</th>
 				</tr>
 
-				@forelse ($patient->related as $item)
+				@forelse ($patient_related as $item) 
 					<tr>
 						<td>{{ $loop->iteration }}</td>
-						<td>{{ $item->name }}</td>
-						<td>{{ translateCommonCode($item->gender) }}</td>
-						<td>{{ $item->age }}</td>
-						<td>{{ $item->phone }}</td>
-						<td>{{ getDateFormat($item->last_date) }}</td>
-						<td>{{ translateCommonCode($item->risk_level) }}</td>
-						<td>{{ $item->address }}</td>
+						<td>{{$item->name}}</td>
+						<td>{{ $item->sex->value ?? '' }}</td></td>
+						<td>{{$item->age}}</td>
+						<td>{{$item->phone}}</td>
+						<td>{{getDateFormat($item->last_date)}}</td>
+						<td>{{$item->risk->value ?? ""}}</td>
+						<td>{{$item->address}}</td>
 					</tr>
-				@empty
+				@empty 
 					<tr class="text-center">
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td colspan="9">@lang('NoData')</td>
 					</tr>
-        	@endforelse
+				@endforelse
+				
 			</tbody>
 		</table>
-		<ul class="list-dash">
-			<li>
-				តើកន្លែងណាខ្លះដែលអ្នកបានទៅដល់ក្នុងរយៈពេល១៤ថ្ងៃមុនមកធ្វើតេស្តឃើញជំងឺកូវីដ១៩?
-				<ul class="pl-4">
-					<li>
-						01.15.+ កក្កដា 2021 ចេញពីធ្វើការមកផ្ទះវិញមិនបានទៅណាផ្សេងទេ
-					</li>
-				</ul>
+
+		<div style="padding-top:20px;">តើកន្លែងណាខ្លះដែលអ្នកបានទៅដល់ក្នុងរយៈពេល១៤ថ្ងៃមុនមកធ្វើតេស្តឃើញជំងឺកូវីដ១៩?</div>
+		<table class="table">
+			<tbody class="py-2">
+				<tr>
+					<th>ល.រ</th>
+					<th>ឈ្មោះទីតាំង</th>
+					<th>ម៉ោង</th>
+					<th>ថ្ងៃចាប់ផ្ដើមប៉ះពាល់</th>
+					<th>ប៉ះពាល់ដល់ថ្ងៃ</th>
+					<th>អាសយដ្ឋាន</th>
+				</tr>
+
+				@forelse ($patient_travel as $item)
+					<tr>
+						<td>{{ $loop->iteration }}</td>
+						<td>{{ $item->location_name }}</td>
+						<td>{{ $item->time }}</td> 
+						<td>{{ getDateFormat($item->start_date) }}</td>
+						<td>{{ getDateFormat($item->date) }}</td>
+						<td>{{ $item->address }}</td>          
+					</tr>
+				@empty 
+					<tr class="text-center">
+						<td colspan="9">@lang('NoData')</td>
+					</tr>
+				@endforelse
+				
+			</tbody>
+		</table>
+
+	<div style="padding-top:20px;">៤.ប្រវត្តិដំណើរអ្នកជំងឺ</div>
+	<table class="table-no-border table-striped">
+			<tbody class="py-2">
+
+				<tr>
+					<td style="width:130">ថ្ងៃមកដល់កម្ពុជា</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ getDateFormat($patient->travel_date) }}</span></td>
+				</tr>
+
+				<tr>
+					<td style="width:130">មកពីប្រទេស</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ $patient->travel_place }}</span></td>
+				</tr>
+
+				<tr>
+					<td style="width:130">ថ្ងៃមកដល់កម្ពុជា</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ getDateFormat($patient->travel_date) }}</span></td>
+				</tr>
+
+				<tr>
+					<td style="width:130">លេខជើងហោះហើរ</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ $patient->travel_no }}</span></td>
+				</tr>
+
+				<tr>
+					<td style="width:100">លេខកៅអី</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ $patient->travel_chair }}</span></td>
+				</tr>
+
+				<tr>
+					<td style="width:130">លិខិតឆ្លងដែន/អត្តសញ្ញាណប័ណ្ណ</td>
+					<td style="width:auto">៖</td>
+					<td><span>{{ $patient->travel_id }}</span></td>
+				</tr>
+
+			</tbody>
+	</table>
+
+	<div style="padding-top:20px;">៥.ជំងឺប្រចាំកាយ</div>
+	<ul class="list-dash">
+		<li class="row mb-10">
+			<div class="col-sm-8">
+				@if($health_history->count() > 0)
+
+					@foreach($health_history as $item)
+						<span class="mr-1">
+							{{ getHealthReport($item->id, $patient->health) ? $item->value : ''}}
+						</span>
+					@endforeach
+				@else
+					<span class="mr-1">
+						គ្មាន
+					</span>
+				@endif
+				</div>
 			</li>
-		</ul>
-		៤.ប្រវត្តិដំណើរអ្នកជំងឺ
-		<ul class="list-dash">
-			<li class="row">
-				<div class="col d-flex">
-					ថ្ងៃមកដល់កម្ពុជា
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span></span>
-				</div>
-			</li>
-			<li class="row">
-				<div class="col d-flex">
-					មកពីប្រទេស
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span></span>
-				</div>
-			</li>
-			<li class="row">
-				<div class="col d-flex">
-					គោលបំណងមកកម្ពុជា
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span></span>
-				</div>
-			</li>
-			<li class="row">
-				<div class="col d-flex">
-					ថ្ងៃចាកចេញពីកម្ពុជា
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span></span>
-				</div>
-			</li>
-			<li class="row">
-				<div class="col d-flex">
-					ទៅកាន់ប្រទេស
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span>ផ្ទះលេខ 44 ផ្លូវបេតុង</span>
-				</div>
-			</li>
-		</ul>
-		៥.ជំងឺប្រចាំកាយ
-		<ul class="list-dash">
-			<li class="row">
-				<div class="col d-flex">
-					ផ្សេងៗ
-					<span class="ml-auto">៖</span>
-				</div>
-				<div class="col-sm-8">
-					 <span></span>
-				</div>
-			</li>
-		</ul>
-	</div>
-	</section>
+		</ul>	
+
+</div>
+</section>
 
 
 </div>

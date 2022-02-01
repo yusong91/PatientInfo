@@ -156,7 +156,7 @@
                         <div class="pr-2">
                             <h2 class="text-center">{{ $datatechnical }}</h2>
                             <div class="text-muted">@Lang('Datatechnical')</div>
-                        </div>
+                        </div> 
                     </div>
                 </div> 
             </div>
@@ -243,7 +243,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr> 
                     <td>
                         <center> <div id="chart_action"  style="padding:0px;"></div></center>
                     </td>
@@ -294,7 +294,7 @@
                                     <div class="dropdown-menu" aria-labelledby="my-dropdown">
 
                                         @permission('download.patient.report')
-                                        @if($item->status == 4)
+                                        @if($item->status == 8)
                                             <a href="{{ route('patients.download.report', $item->id) }}"
                                             class="dropdown-item text-gray"><i class="fas fa-edit mr-2"></i>
                                                 @lang('downloadPatientReport')

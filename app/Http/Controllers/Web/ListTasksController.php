@@ -79,9 +79,7 @@ class ListTasksController extends Controller
         } else {
             $status = null;
         }
-
-        //dd($status);
-
+ 
         $patients = $this->patient->listTast($status, null, null, $process_by_step);
 
         return view('list-tasks/list-tasks', compact('patients', 'role_id'));

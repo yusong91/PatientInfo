@@ -504,7 +504,7 @@
 						{{ $patient->workplace_name ?? 'គ្មាន'}} / {{ $patient->workplace_address ?? 'គ្មាន'}} / {{ $patient->workplace_phone ?? 'គ្មាន'}} 
 						</li>
 					</ul>
-				</li>
+				</li> 
 				<li>
 					តើបុគ្គលិកនៅកន្លែងធ្វើការរបស់អ្នកមានប៉ុន្មាននាក់?
 					<ul class="pl-4"> 

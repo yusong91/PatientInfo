@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Vanguard\KhDate;
+use Vanguard\CommonCode;
 
 if(!function_exists('getConmunCode')){
     function getConmunCode($key){
@@ -119,15 +120,29 @@ if(!function_exists('downloadPatientReport')){
             'sex', 'nation', 'symptom', 'objectTypes', 'hospital',
             'related', 'family'
         ])->first(); 
-        
-        //patientsinfo
+        $interviewStatusList = getConmunCode('status_interview');
+        $family_member = getConmunCode('family_member');
+        $clinical_symptom = getConmunCode('clinical_symptom');
+        $patient_family = getPatientFamily($patient->id);
+        $patient_related = getPatientRelated($patient->id);
+        $patient_travel = getPatientTravel($patient->id);
+        $health_history = getConmunCode('health_history');
+        $variant = getPatientCommond($patient->virus_type);
+        $test_reason = getPatientCommond($patient->test_reason);
+        $health_facility = getPatientCommond($patient->health_facility_id);
+        $was_positive = getPatientCommond($patient->was_positive);
+        $gender = getPatientCommond($patient->gender);
+        $nation = getPatientCommond($patient->nation_id);
+        $province = getLocationCodeAddress($patient->province);
+        $district = getLocationCodeAddress($patient->district);
+        $commune = getLocationCodeAddress($patient->commune);
+        $village = getLocationCodeAddress($patient->village); 
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);  
+        $type_vaccine = CommonCode::commonCode('type_vaccine')->first()->children;
 
-        $was_positive = \Vanguard\CommonCode::where('id', $patient->was_positive)->first();
-
-        $pdfViewer = view('pdf.patientPdfReport', ['patient'=>$patient, 'was_positive'=>$was_positive ]);
+        $pdfViewer = view('pdf.patientPdfReport', ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive]);
    
-        //$fileName = "test.pdf"; //getUrl("test.pdf");
-
         $options = ['gs' => ['acl' => 'public-wite']];
         $context = stream_context_create($options);
         $fileName = "public_file.pdf";
