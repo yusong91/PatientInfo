@@ -164,8 +164,8 @@ if(!function_exists('downloadPatientReport')){
         //     fopen('report/invoice.pdf', 'r')
         // );
 
-        $object = $bucket->object('invoice.pdf');
-        $object->downloadToFile('report/invoice.pdf');
+        //$object = $bucket->object('invoice.pdf');
+        //$object->downloadToFile('report/invoice.pdf');
 
         //$object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));        
     }
