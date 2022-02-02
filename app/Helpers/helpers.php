@@ -170,9 +170,7 @@ if(!function_exists('downloadPatientReport')){
         
         $pdf = PDF::loadView('pdf.patientPdfReport', $data);
 
-        //Storage::put('report/invoice.pdf', $pdf->output());
-
-        Storage::putFile('report/invoice.pdf', $pdf->output());
+        Storage::put('report/invoice.pdf', $pdf->output());
 
         //return $pdf->download('invoice.pdf');
     }
