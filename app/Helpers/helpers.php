@@ -149,15 +149,20 @@ if(!function_exists('downloadPatientReport')){
         $options = ['gs' => ['acl' => 'public-wite']];
         $context = stream_context_create($options);
         $fileName = "public_file.pdf";
+
+
+
         //file_put_contents($fileName, PDF::loadHtml($pdfViewer)->download($fileName), 0, $context);
         //$storage = new StorageClient(); 
         //Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName));
         //$file = fopen($source, 'write');
 
-        // $storage = new StorageClient();
-        // $bucket = $storage->bucket('patientcovid_bucket');
-        // $pdf = PDF::loadHtml('pdf.patientPdfReport', $pdfViewer);
-        // Storage::put('report/invoice.pdf', $pdf->output());
+
+
+        $storage = new StorageClient();
+        $bucket = $storage->bucket('patientcovid_bucket');
+        //$pdf = PDF::loadHtml('pdf.patientPdfReport', $pdfViewer);
+        //Storage::put('report/invoice.pdf', $pdf->output());
 
         // $bucket->upload(
         //     fopen('report/invoice.pdf', 'r')
@@ -168,11 +173,11 @@ if(!function_exists('downloadPatientReport')){
 
         //$object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));        
         
-        $data = ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive];
+        // $data = ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive];
         
-        $pdf = PDF::loadView('pdf.patientPdfReport', $data);
+        // $pdf = PDF::loadView('pdf.patientPdfReport', $data);
         
-        return $pdf->stream('document.pdf');
+        // return $pdf->stream('document.pdf');
 
         //Storage::put('report/invoice.pdf', $pdf->output());
 
