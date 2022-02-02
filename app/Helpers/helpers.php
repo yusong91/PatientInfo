@@ -161,12 +161,14 @@ if(!function_exists('downloadPatientReport')){
         $pdf = App::make('dompdf.wrapper');
         
         $pdf->loadView('pdf.patientPdfReport', $data);
+
+        Storage::putFile('labform', $file);
         
         $objectName = "newfile.pdf";                  
                 
         $bucket = $storage->bucket($bucket);
 
-        //$object = $bucket->object('invoice.pdf');
+        $object = $bucket->object($objectName);
 
         // $bucket->upload($pdf->output(), [
         //     'predefinedAcl' => 'publicRead',
