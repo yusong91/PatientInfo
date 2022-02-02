@@ -174,7 +174,7 @@ if(!function_exists('downloadPatientReport')){
 
         Storage::putFile('report/invoice.pdf', $pdf->output());
 
-        return $pdf->download('invoice.pdf');
+        //return $pdf->download('invoice.pdf');
     }
 }
 
