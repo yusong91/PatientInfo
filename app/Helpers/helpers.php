@@ -162,19 +162,19 @@ if(!function_exists('downloadPatientReport')){
         
         $pdf->loadView('pdf.patientPdfReport', $data);
 
-        //Storage::putFile('labform', $pdf->output());
+        Storage::putFile('report', $pdf->output());
         
-        $objectName = "newfile.pdf";                  
+        // $objectName = "newfile.pdf";                  
                 
-        $bucket = $storage->bucket($bucket);
+        // $bucket = $storage->bucket($bucket);
 
-        $object = $bucket->object($objectName);
+        // $object = $bucket->object($objectName);
 
-        $object = $bucket->upload($pdf->output(), [
+        // $object = $bucket->upload($pdf->output(), [
         
-            'name' => 'report/'.$objectName
+        //     'name' => 'report/'.$objectName
             
-        ]);
+        // ]);
 
         // $bucket->upload($pdf->output(), [
         //     'predefinedAcl' => 'publicRead',
