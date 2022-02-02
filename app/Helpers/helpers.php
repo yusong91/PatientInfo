@@ -166,10 +166,12 @@ if(!function_exists('downloadPatientReport')){
                 
         $bucket = $storage->bucket($bucket);
 
-        $bucket->upload($pdf->output(), [
-            'predefinedAcl' => 'publicRead',
-            'name' => 'report/newfile.pdf'
-        ]);
+        //$object = $bucket->object('invoice.pdf');
+
+        // $bucket->upload($pdf->output(), [
+        //     'predefinedAcl' => 'publicRead',
+        //     'name' => 'report/newfile.pdf'
+        // ]);
 
 
 
