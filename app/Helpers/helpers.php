@@ -165,6 +165,15 @@ if(!function_exists('downloadPatientReport')){
         $objectName = "newfile.pdf";                  
                 
         $bucket = $storage->bucket($bucket);
+
+        $bucket->upload($pdf->output(), [
+            'predefinedAcl' => 'publicRead',
+            'name' => 'https://storage.googleapis.com/patientcovid_bucket/report/'
+        ]);
+
+
+
+
         
         // $object = $bucket->upload(PDF::loadHtml('pdf.patientPdfReport', $pdfViewer), [
         
