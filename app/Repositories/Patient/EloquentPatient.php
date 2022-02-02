@@ -184,7 +184,7 @@ class EloquentPatient implements PatientRepository
     public function create($data)
     {
         $digital_file = "";
-        if(isset($data["laboratory_file"]))
+        if(isset($data["laboratory_file"])) 
         { 
             $file = $data["laboratory_file"];
             $digital_file = Storage::putFile('labform', $file);
