@@ -152,9 +152,22 @@ if(!function_exists('downloadPatientReport')){
         //Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName));
         //$file = fopen($source, 'write');
 
+        $storage = new StorageClient();
+
         $bucket = $storage->bucket('patientcovid_bucket');
-        $object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));
-        
+
+        $pdf = PDF::loadHtml('pdf.patientPdfReport', $pdfViewer);
+
+        Storage::put('report/invoice.pdf', $pdf->output());
+
+        // $bucket->upload(
+        //     fopen('report/invoice.pdf', 'r')
+        // );
+
+        $object = $bucket->object('invoice.pdf');
+        $object->downloadToFile('report/invoice.pdf');
+
+        //$object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));        
     }
 }
 
