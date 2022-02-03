@@ -160,14 +160,15 @@ if(!function_exists('downloadPatientReport')){
 
         $storage = new StorageClient();
 
-        //$pdf = App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
 
-        return PDF::loadHtml($pdfViewer)->download('song.pdf');
+        //return PDF::loadHtml($pdfViewer)->download('song.pdf');
 
-            
-        //$pdf->loadView('pdf.patientPdfReport', $data);
-        //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
+        //$pdf->loadHtml($pdfViewer)->download('ok.pdf');
 
+        return $pdf->loadView($pdfViewer);
+
+        
         // $bucket->upload($pdf->output(), [
         //     'predefinedAcl' => 'publicRead',
         //     'name' => 'report/test1.pdf'
