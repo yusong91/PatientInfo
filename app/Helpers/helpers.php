@@ -158,10 +158,12 @@ if(!function_exists('downloadPatientReport')){
         // $bucket = $storage->bucket('patientcovid_bucket');
         // $storage = new StorageClient();
 
+        $pdf_view = view('pdf.pdf_patient');
+
         $pdf = App::make('dompdf.wrapper');
         //return $pdf->loadHtml($pdfViewer)->download('song.pdf');
 
-        return $pdf->loadView($pdfViewer)->download('song.pdf');
+        return $pdf->loadView('pdf.pdf_patient')->download('song.pdf');
 
 
         //return PDF::loadHtml($pdfViewer)->download('song.pdf');
