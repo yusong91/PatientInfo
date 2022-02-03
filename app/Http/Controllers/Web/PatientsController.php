@@ -14,7 +14,7 @@ use Vanguard\Patient;
 use Vanguard\Repositories\CommonCode\CommonCodeRepository;
 use Vanguard\Repositories\Patient\PatientRepository;
 use Vanguard\Model\ExcelPatient;
-use PDF;
+//use PDF;
 use Vanguard\User;
 use DB;
 use Illuminate\Support\Facades\Cache;
@@ -440,40 +440,9 @@ class PatientsController extends Controller
 
         $data = ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive];
 
-        // $storage = new StorageClient();
-        
-        // $bucket = $storage->bucket('patientcovid_bucket');
+        $pdf = App::make('dompdf.wrapper');
 
-        // $storage = new StorageClient();
-
-        //require_once __DIR__ . '/vendor/autoload.php';
-
-        //$mpdf = new \Mpdf\Mpdf();
-
-   
-        $mpdf = new \Mpdf\Mpdf([
-            'font_path' => base_path('resources/fonts/'),
-            'font_data' => [
-                'khmerfont' => [
-                    'R'  => 'KhmerOSsiemreap.ttf',    // regular font
-                    'B'  => 'KhmerOSmuollight.ttf',       // optional: bold font
-                    'I'  => 'KhmerOSsiemreap.ttf',     // optional: italic font
-                    'BI' => 'KhmerOSsiemreap.ttf', // optional: bold-italic font
-                    'useOTL' => 0xFF,    // required for complicated langs like Persian, Arabic and Chinese
-                    //'useKashida' => 75,  // required for complicated langs like Persian, Arabic and Chinese
-                ]
-            ],
-            'default_font' => 'frutiger'
-        ]);
-        
-
-        $mpdf->WriteHTML($pdfViewer);
-
-        return $mpdf->Output();
-
-        //return $mpdf->loadHtml($pdfViewer)->download('song.pdf');
-
-        //return PDF::loadHtml($pdfViewer)->download('song.pdf');
+        return $pdf->loadHtml($pdfViewer)->stream();
     }
 
 }
