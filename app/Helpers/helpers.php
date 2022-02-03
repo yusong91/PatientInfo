@@ -158,6 +158,8 @@ if(!function_exists('downloadPatientReport')){
 
         $storage = new StorageClient();
 
+        $test = PDF::loadHtml($pdfViewer);
+
         $pdf = App::make('dompdf.wrapper');
         
         //$pdf->loadView('pdf.patientPdfReport', $data);
