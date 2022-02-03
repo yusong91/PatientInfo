@@ -1,12 +1,9 @@
-
+<!doctype html>
+<html lang="en">
+	<head>
 
 		<style>
-			.font-moul {
-				font-family: 'khmerfont', Roboto;
-				line-height: 1.8
-			}
-
-			body { font-family: 'khmerfont';   font-size: 12px !important; word-break: break-all;}
+			
 
 			.row {
 				display: -ms-flexbox;
@@ -73,8 +70,9 @@
 			}
 
 		</style>
-
-
+	</head>
+	<body>
+		<section>
 
 			<div class="content mx-auto">
 				<table style="width: 100%">
@@ -571,4 +569,8 @@
 					</ul>	
 
 			</div>
-		
+		</section>
+
+
+	</body>
+</html>
