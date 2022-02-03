@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Vanguard\KhDate;
 use Vanguard\CommonCode;
 use Google\Cloud\Storage\StorageClient;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 if(!function_exists('getConmunCode')){
@@ -158,16 +159,17 @@ if(!function_exists('downloadPatientReport')){
 
         $storage = new StorageClient();
 
-        $pdf = App::make('dompdf.wrapper');
+        //$pdf = App::make('dompdf.wrapper');
+
+        $pdf = PDF::loadHtml($pdfViewer);
         
         //$pdf->loadView('pdf.patientPdfReport', $data);
-        $pdf->loadHtml($pdfViewer)->download('ok.pdf');
+        //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
 
         // $bucket->upload($pdf->output(), [
         //     'predefinedAcl' => 'publicRead',
         //     'name' => 'report/test1.pdf'
         //   ]);
-
 
 
 
