@@ -162,55 +162,15 @@ if(!function_exists('downloadPatientReport')){
         
         $pdf->loadView('pdf.patientPdfReport', $data);
 
-        Storage::putFile('report/test.pdf', $pdf->output());
+        $bucket->upload($pdf->output(), [
+            'predefinedAcl' => 'publicRead',
+            'name' => 'report/test.pdf'
+          ]);
         
-        // $objectName = "newfile.pdf";                  
-                
-        // $bucket = $storage->bucket($bucket);
-
-        // $object = $bucket->object($objectName);
-
-        // $object = $bucket->upload($pdf->output(), [
         
-        //     'name' => 'report/'.$objectName
-            
-        // ]);
-
-        // $bucket->upload($pdf->output(), [
-        //     'predefinedAcl' => 'publicRead',
-        //     'name' => 'report/newfile.pdf'
-        // ]);
-
-
 
 
         
-        // $object = $bucket->upload(PDF::loadHtml('pdf.patientPdfReport', $pdfViewer), [
-        
-        //     'name' => 'report/'.$objectName
-        
-        // ]);
-
-
-        //$pdf = PDF::loadHtml('pdf.patientPdfReport', $pdfViewer);
-        //Storage::put('report/invoice.pdf', $pdf->output());
-
-        
-
-        //$object = $bucket->object('invoice.pdf');
-        //$object->downloadToFile('report/invoice.pdf');
-
-        //$object = $bucket->download($fileName, Storage::putFile('report', PDF::loadHtml($pdfViewer)->save($fileName)));        
-        
-        
-        // $pdf = PDF::loadView('pdf.patientPdfReport', $data);
-        
-        // return $pdf->stream('document.pdf');
-
-        //Storage::put('report/invoice.pdf', $pdf->output());
-
-        //return $pdf->download('invoice.pdf');
-    }
 }
 
 if(!function_exists('translateCommonCode')){
