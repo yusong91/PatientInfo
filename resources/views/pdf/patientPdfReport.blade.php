@@ -1,72 +1,72 @@
 <style>
-			
+	/* .font-moul {
+		font-family: 'Moul', Roboto;
+		line-height: 1.8
+	} */
 
-			.row {
-				display: -ms-flexbox;
-				display: flex;
-				-ms-flex-wrap: wrap;
-				flex-wrap: wrap;
-				margin-right: -15px;
-				margin-left: -15px;
-			}
-			.col {
-				-ms-flex-preferred-size: 0;
-				flex-basis: 0;
-				-ms-flex-positive: 1;
-				flex-grow: 1;
-				max-width: 100%;
-			}
-			.col-sm-8 {
-				-ms-flex: 0 0 66.666667%;
-				flex: 0 0 66.666667%;
-				max-width: 66.666667%;
-			}
-			.text-center {
-				text-align: center;
-			}
-			.mx-auto {
-				margin-left: auto;
-				margin-right: auto;
-			}
+	body { font-family: 'khmerfont';   font-size: 12px !important; word-break: break-all;}
 
-			.content {
-				width: 768px;
-			}
+	.row {
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+	.col {
+		-ms-flex-preferred-size: 0;
+		flex-basis: 0;
+		-ms-flex-positive: 1;
+		flex-grow: 1;
+		max-width: 100%;
+	}
+	.col-sm-8 {
+		-ms-flex: 0 0 66.666667%;
+		flex: 0 0 66.666667%;
+		max-width: 66.666667%;
+	}
+	.text-center {
+		text-align: center;
+	}
+	.mx-auto {
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-			.list-dash {
-				list-style-type: none;
-				padding-left: 20px;
-			}
-			.list-dash >li::before {
-				content: "-";
-				text-indent: -5px;
-			}
-			.list-dash li+li {
-				margin-top: .5rem;
-			}
-			.table {
-				width: 100%;
-				border-collapse: collapse;
-			}
-			.table th, .table td {
-				border: 1px solid #ddd;
-				padding: 5px; 
-			}
-			.table-no-border th, .table-no-border td {
+	.content {
+		width: 768px;
+	}
 
-				border: none;
-				padding: 5px; 
-				width: 100%;
-				border-collapse: collapse;
-			}
+	.list-dash {
+		list-style-type: none;
+		padding-left: 20px;
+	}
+	.list-dash >li::before {
+		content: "-";
+		text-indent: -5px;
+	}
+	.list-dash li+li {
+		margin-top: .5rem;
+	}
+	.table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	.table th, .table td {
+		border: 1px solid #ddd;
+		padding: 5px; 
+	}
+	.table-no-border th, .table-no-border td {
 
-			.title {
-				padding-top: 50px;
-				padding-bottom: 50px;
-			}
+		border: none;
+		padding: 5px; 
+		width: 100%;
+		border-collapse: collapse;
+	}
 
-		</style>
-		
+</style>
+
 <div class="content mx-auto">
 	<table style="width: 100%">
 		<tbody>
