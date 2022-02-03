@@ -163,15 +163,17 @@ if(!function_exists('downloadPatientReport')){
 
         $pdf = PDF::loadHtml($pdfViewer);
 
+        return $pdf->download('invoice.pdf');
+
         
         
         //$pdf->loadView('pdf.patientPdfReport', $data);
         //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
 
-        $bucket->upload($pdf->output(), [
-            'predefinedAcl' => 'publicRead',
-            'name' => 'report/test1.pdf'
-          ]);
+        // $bucket->upload($pdf->output(), [
+        //     'predefinedAcl' => 'publicRead',
+        //     'name' => 'report/test1.pdf'
+        //   ]);
 
 
 
