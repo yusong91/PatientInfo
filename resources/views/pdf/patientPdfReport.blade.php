@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-	<head>
+
 
 		<style>
 			
@@ -70,8 +68,7 @@
 			}
 
 		</style>
-	</head>
-	<body>
+	
 		<section>
 
 			<div class="content mx-auto">
@@ -572,5 +569,4 @@
 		</section>
 
 
-	</body>
-</html>
+	
