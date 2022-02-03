@@ -188,11 +188,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::post('/patients/excel/store',[PatientsController::class,'storeExcel'])->name('patients.excel.store');
 
-    Route::get('patients/download/report/{id}', function ($id) { 
+
+    Route::get('patients/download/report/{id}',[PatientsController::class,'exportPDF'])->name('patients.download.report')->middleware('permission:download.patient.report');
+
+
+    // Route::get('patients/download/report/{id}', function ($id) { 
         
-        return downloadPatientReport($id);
+    //     return downloadPatientReport($id);
     
-    })->name('patients.download.report')->middleware('permission:download.patient.report'); 
+    // })->name('patients.download.report')->middleware('permission:download.patient.report'); 
+
+
+
 
     Route::post('list-tasks/interview/again',[PatientsController::class,'interviewAgain'])->name('list-tasks.interview.again');
 

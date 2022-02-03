@@ -18,6 +18,7 @@ use PDF;
 use Vanguard\User;
 use DB;
 use Illuminate\Support\Facades\Cache;
+use Google\Cloud\Storage\StorageClient;
 
 class PatientsController extends Controller
 {
@@ -264,6 +265,10 @@ class PatientsController extends Controller
         
         $patients = Patient::whereIn('step1',$ids)->orwhereIn('step2',$ids)->orwhereIn('step3',$ids)->orwhereIn('step4',$ids)->paginate(10);
         
+
+        
+
+
         return view('patients.superior',compact('research', 'done_full', 'finish', 'patients','fullUser', 'dataentry', 'basic', 'datatechnical', 'fullinterview'));
     }
  
@@ -396,6 +401,52 @@ class PatientsController extends Controller
         {
             return redirect('patientReport');
         }
+    }
+
+    public function exportPDF($id)
+    {
+
+        $patient = Patient::where('id',$id)->with([
+            'sex', 'nation', 'symptom', 'objectTypes', 'hospital',
+            'related', 'family'
+        ])->first(); 
+
+        $interviewStatusList = getConmunCode('status_interview');
+        $family_member = getConmunCode('family_member');
+        $clinical_symptom = getConmunCode('clinical_symptom');
+        $patient_family = getPatientFamily($patient->id);
+        $patient_related = getPatientRelated($patient->id);
+        $patient_travel = getPatientTravel($patient->id);
+        $health_history = getConmunCode('health_history');
+        $variant = getPatientCommond($patient->virus_type);
+        $test_reason = getPatientCommond($patient->test_reason);
+        $health_facility = getPatientCommond($patient->health_facility_id);
+        $was_positive = getPatientCommond($patient->was_positive);
+        $gender = getPatientCommond($patient->gender);
+        $nation = getPatientCommond($patient->nation_id);
+        $province = getLocationCodeAddress($patient->province);
+        $district = getLocationCodeAddress($patient->district);
+        $commune = getLocationCodeAddress($patient->commune);
+        $village = getLocationCodeAddress($patient->village); 
+        $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
+        $patient_vaccine = getPatientVaccine($id);  
+        $type_vaccine = CommonCode::commonCode('type_vaccine')->first()->children;
+
+        $pdfViewer = view('pdf.patientPdfReport', ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive]);
+   
+        $options = ['gs' => ['acl' => 'public-wite']];
+        $context = stream_context_create($options);
+        $fileName = "public_file.pdf";
+
+        $data = ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive];
+
+        $storage = new StorageClient();
+        
+        $bucket = $storage->bucket('patientcovid_bucket');
+
+        $storage = new StorageClient();
+
+        return PDF::loadHtml($pdfViewer)->download('song.pdf');
     }
 
 }

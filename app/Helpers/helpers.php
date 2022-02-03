@@ -4,8 +4,9 @@ use Carbon\Carbon;
 use Vanguard\KhDate;
 use Vanguard\CommonCode;
 use Google\Cloud\Storage\StorageClient;
-use Barryvdh\DomPDF\Facade\Pdf;
-
+//use Barryvdh\DomPDF\Facade\Pdf;
+//use PDF;
+ 
 
 if(!function_exists('getConmunCode')){
     function getConmunCode($key){
@@ -161,12 +162,9 @@ if(!function_exists('downloadPatientReport')){
 
         //$pdf = App::make('dompdf.wrapper');
 
-        $pdf = PDF::loadHtml($pdfViewer);
+        return PDF::loadHtml($pdfViewer)->download('song.pdf');
 
-        return $pdf->download('invoice.pdf');
-
-        
-        
+            
         //$pdf->loadView('pdf.patientPdfReport', $data);
         //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
 
