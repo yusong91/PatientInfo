@@ -162,7 +162,7 @@ if(!function_exists('downloadPatientReport')){
 
         $pdf = App::make('dompdf.wrapper');
 
-        return $pdf->loadView($pdfViewer)->download('song.pdf');
+        return $pdf->loadHtml($pdfViewer)->download('song.pdf');
 
 
         //return PDF::loadHtml($pdfViewer)->download('song.pdf');
