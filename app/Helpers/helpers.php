@@ -161,17 +161,17 @@ if(!function_exists('downloadPatientReport')){
 
         //$pdf = App::make('dompdf.wrapper');
 
-        return PDF::loadHtml($pdfViewer)->download("test.pdf");
+        $pdf = PDF::loadHtml($pdfViewer);
 
         
         
         //$pdf->loadView('pdf.patientPdfReport', $data);
         //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
 
-        // $bucket->upload($pdf->output(), [
-        //     'predefinedAcl' => 'publicRead',
-        //     'name' => 'report/test1.pdf'
-        //   ]);
+        $bucket->upload($pdf->output(), [
+            'predefinedAcl' => 'publicRead',
+            'name' => 'report/test1.pdf'
+          ]);
 
 
 
