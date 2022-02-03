@@ -173,8 +173,6 @@ if(!function_exists('downloadPatientReport')){
         //     'name' => 'report/test1.pdf'
         //   ]);
 
-
-
     }      
 }
 

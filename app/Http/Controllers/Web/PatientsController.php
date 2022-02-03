@@ -443,6 +443,7 @@ class PatientsController extends Controller
         $pdf = App::make('dompdf.wrapper');
 
         return $pdf->loadHtml($pdfViewer)->stream();
+        
     }
 
 }
