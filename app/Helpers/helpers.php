@@ -5,8 +5,7 @@ use Vanguard\KhDate;
 use Vanguard\CommonCode;
 use Google\Cloud\Storage\StorageClient;
 //use Barryvdh\DomPDF\Facade\Pdf;
-//use PDF;
- 
+use PDF; 
 
 if(!function_exists('getConmunCode')){
     function getConmunCode($key){
@@ -160,13 +159,15 @@ if(!function_exists('downloadPatientReport')){
 
         $pdf_view = view('pdf.pdf_patient');
 
-        $pdf = App::make('dompdf.wrapper');
+        //$pdf = App::make('dompdf.wrapper');
          
-        $pdf->loadHtml($pdfViewer);
+        //$pdf->loadHtml($pdfViewer);
 
-        return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
+        //return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
+
+        return PDF::loadView('pdf.patientPdfReport', $data)->stream();
         
-
+        
         
 
 

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
 	<style>
 
 		body { font-family: 'khmerfont';   font-size: 12px !important; word-break: break-all;}
