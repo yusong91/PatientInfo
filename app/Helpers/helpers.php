@@ -162,6 +162,8 @@ if(!function_exists('downloadPatientReport')){
         //$pdf = App::make('dompdf.wrapper');
 
         $pdf = PDF::loadHtml($pdfViewer);
+
+        return $pdf->download('invoice.pdf');
         
         //$pdf->loadView('pdf.patientPdfReport', $data);
         //return $pdf->loadHtml($pdfViewer)->download('ok.pdf');
