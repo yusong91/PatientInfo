@@ -13,4 +13,4 @@ return [
 			//'useKashida' => 75,  // required for complicated langs like Persian, Arabic and Chinese
 		]
 	]
-]; 
+];  
