@@ -1216,7 +1216,7 @@ class EloquentPatient implements PatientRepository
         $patient->status_message = 9;
         $patient->status = 9;
         $patient->close_case = $data['close_case'];
-        $patient->case_descript = $data['description'];
+        $patient->case_descript = $data['case_descript'];
         $patient->process_by_step5 = auth()->user()->id;
         $patient->step5 = auth()->user()->id;
         $patient->save();
