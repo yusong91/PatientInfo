@@ -162,7 +162,7 @@ if(!function_exists('downloadPatientReport')){
         
         $pdf->loadView('pdf.patientPdfReport', $data);
 
-        Storage::putFile('report', $pdf->output());
+        Storage::putFile('report/test.pdf', $pdf->output());
         
         // $objectName = "newfile.pdf";                  
                 
