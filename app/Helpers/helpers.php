@@ -164,11 +164,10 @@ if(!function_exists('downloadPatientReport')){
          
         $pdf->loadHtml($pdfViewer);
 
-        return $pdf->output();
-
+        return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
         
 
-        //return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
+        
 
 
         //return PDF::loadHtml($pdfViewer)->download('song.pdf');

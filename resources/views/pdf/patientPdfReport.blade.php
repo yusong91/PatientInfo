@@ -70,7 +70,8 @@
 </head>
 <body>
 
-	<div class="content mx-auto">
+	<div style="width: 768px; margin-left: auto;
+			margin-right: auto;">
 		<table style="width: 100%">
 			<tbody>
 				<tr>
