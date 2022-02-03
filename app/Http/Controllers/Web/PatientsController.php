@@ -437,8 +437,9 @@ class PatientsController extends Controller
         $fileName = "public_file.pdf";
 
         $data = ['type_vaccine'=>$type_vaccine, 'vaccination_list'=>$vaccination_list, 'patient_vaccine'=>$patient_vaccine, 'patient'=>$patient, 'province'=>$province, 'district'=>$district, 'commune'=>$commune, 'village'=>$village, 'family_member'=>$family_member, 'interviewStatusList'=>$interviewStatusList, 'nation'=>$nation, 'gender'=>$gender, 'clinical_symptom'=>$clinical_symptom, 'patient_family'=>$patient_family, 'patient_related'=>$patient_related, 'patient_travel'=>$patient_travel, 'health_history'=>$health_history, 'variant'=>$variant, 'test_reason'=>$test_reason, 'health_facility'=>$health_facility, 'was_positive'=>$was_positive];
+        
+        return PDF::loadView('pdf.patientPdfReport', $data)->stream();
 
-        return PDF::loadHtml($pdfViewer)->download('song.pdf');
     }
 
 }
