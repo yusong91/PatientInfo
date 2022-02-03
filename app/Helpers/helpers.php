@@ -160,7 +160,8 @@ if(!function_exists('downloadPatientReport')){
 
         $pdf = App::make('dompdf.wrapper');
         
-        $pdf->loadView('pdf.patientPdfReport', $data);
+        //$pdf->loadView('pdf.patientPdfReport', $data);
+        $pdf->loadHtml('pdf.patientPdfReport', $data);
 
         $bucket->upload($pdf->output(), [
             'predefinedAcl' => 'publicRead',
@@ -169,7 +170,7 @@ if(!function_exists('downloadPatientReport')){
 
 
 
-          
+
     }      
 }
 
