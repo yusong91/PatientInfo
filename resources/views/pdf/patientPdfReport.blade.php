@@ -1,8 +1,4 @@
 <style>
-	/* .font-moul {
-		font-family: 'Moul', Roboto;
-		line-height: 1.8
-	} */
 
 	body { font-family: 'khmerfont';   font-size: 12px !important; word-break: break-all;}
 
