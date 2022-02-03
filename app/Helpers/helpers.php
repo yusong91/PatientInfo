@@ -166,11 +166,11 @@ if(!function_exists('downloadPatientReport')){
             'predefinedAcl' => 'publicRead',
             'name' => 'report/test.pdf'
           ]);
-        
-        
 
 
-        
+
+          
+    }      
 }
 
 if(!function_exists('translateCommonCode')){
