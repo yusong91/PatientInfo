@@ -161,9 +161,14 @@ if(!function_exists('downloadPatientReport')){
         $pdf_view = view('pdf.pdf_patient');
 
         $pdf = App::make('dompdf.wrapper');
-        //return $pdf->loadHtml($pdfViewer)->download('song.pdf');
+         
+        $pdf->loadHtml($pdfViewer);
 
-        return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
+        return $pdf->output();
+
+        
+
+        //return $pdf->loadView('pdf.patientPdfReport', $data)->download('song.pdf');
 
 
         //return PDF::loadHtml($pdfViewer)->download('song.pdf');
