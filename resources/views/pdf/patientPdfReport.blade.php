@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-	<head>
+
 
 		<style>
 			.font-moul {
@@ -75,9 +73,8 @@
 			}
 
 		</style>
-	</head>
-	<body>
-		<section>
+
+
 
 			<div class="content mx-auto">
 				<table style="width: 100%">
@@ -574,8 +571,4 @@
 					</ul>	
 
 			</div>
-		</section>
-
-
-	</body>
-</html>
+		
