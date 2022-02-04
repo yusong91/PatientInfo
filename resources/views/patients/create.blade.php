@@ -233,6 +233,14 @@
 
 			</div>
 
+
+			<div class="d-flex justify-content-between flex-wrap mb-4">				
+				<div class="form-check form-check-inline">
+					<input name="import_case" class="form-check-input" type="checkbox" id="nose" >
+					<label class="form-check-label" for="nose">@lang('Import_case')</label>
+				</div>
+			</div>
+
 			<label class="mb-3">@lang('CurrentAdd')</label>
 
 			<div class="input-group mb-4">

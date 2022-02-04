@@ -269,6 +269,7 @@ class EloquentPatient implements PatientRepository
         $patient->death = isset($data["death"]) ? $data["death"] : 'off';
         $patient->labform_province = isset($data["labform_province"]) ? $data["labform_province"] : null;
         $patient->status_message = 1;
+        $patient->import_case = isset($data["import_case"]) ? $data["import_case"] : 'off';
         $patient->save();
         $vaccination_list = CommonCode::commonCode('number_vaccination')->first()->children;
 
@@ -399,6 +400,7 @@ class EloquentPatient implements PatientRepository
         $patient->patient_age = $data['patient_age'];
         $patient->death = isset($data["death"]) ? $data["death"] : 'off';
         $patient->labform_province = isset($data["labform_province"]) ? $data["labform_province"] : null;
+        $patient->import_case = isset($data["import_case"]) ? $data["import_case"] : 'off';
         $patient->save();
 
         if(isset($data["object_types_id"])){
