@@ -226,8 +226,8 @@
 
 				<div class="d-flex justify-content-between flex-wrap mb-4">				
 					<div class="form-check form-check-inline ml-3">
-						<input name="death" class="form-check-input" type="checkbox" id="nose" >
-						<label class="form-check-label" for="nose">ស្លាប់</label>
+						<input name="death" class="form-check-input" type="checkbox" id="death" >
+						<label class="form-check-label" for="death">ស្លាប់</label>
 					</div>
 				</div>
 
@@ -236,8 +236,8 @@
 
 			<div class="d-flex justify-content-between flex-wrap mb-4">				
 				<div class="form-check form-check-inline">
-					<input name="import_case" class="form-check-input" type="checkbox" id="nose" >
-					<label class="form-check-label" for="nose">@lang('Import_case')</label>
+					<input name="import_case" class="form-check-input" type="checkbox" id="import_case" >
+					<label class="form-check-label" for="import_case">@lang('Import_case')</label>
 				</div>
 			</div>
 

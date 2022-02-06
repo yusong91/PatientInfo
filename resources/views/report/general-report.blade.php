@@ -3,6 +3,24 @@
 @section('page-title', __('Patient Report'))
 @section('page-heading', __('Patient Report')) 
 
+<style>
+
+.container {
+  height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+
+    .vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+</style>
+
 @section('styles')
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -107,7 +125,7 @@
         @lang('Patient Report')
     </li>
 @stop
- 
+  
 @section('content')
 
 <div class="row"> 
@@ -221,6 +239,69 @@
     </div>
 </div>
 
+<div class="row">
+    
+    <div class="col-md-6">
+        <table class="table tbl-info table-light shadow"  style="height: 300px;">
+            <thead class="bg-primary">
+                <tr>
+                    <th>
+                        @lang('total_gender_title') ( {{ $total_female + $total_male }} )
+                    </th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle;">
+                            <div id="barchart_total_gender" style="width: auto;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table tbl-info table-light shadow"  style="height: 300px;">
+            <thead class="bg-primary">
+                <tr>
+                    <th>
+                        @lang('daily_gender_title') ( {{ $daily_female + $daily_male }} )
+                    </th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle;">
+                            <div id="barchart_daily_gender" style="width: auto;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table tbl-info table-light shadow"  style="height: 400px;">
+                <thead class="bg-primary">
+                    <tr>
+                        <th>
+                            @lang('total_line_chart')
+                        </th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                <div id="curve_chart" style="width: auto"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table> 
+        </div>
+</div>
+
 @stop
 
 @section('scripts')
@@ -296,8 +377,130 @@
         var chart = new google.charts.Bar(document.getElementById('barchart_material'));
         chart.draw(data, google.charts.Bar.convertOptions(options));
     }
+
+
+</script>
+
+<script>
+
+    var total_female = <?php echo $total_female; ?>;
+    var total_male = <?php echo $total_male; ?>;
+
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "", { role: "style" } ],
+        ["Female", total_female, "red"],
+        ["Male", total_male, "blue"],
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "",
+        width: 400,
+        height: 200,
+        
+        bar: {groupWidth: "50%"},
+        legend: { position: 'none' },
+        backgroundColor: 'none',
+
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_total_gender"));
+      chart.draw(view, options);
+  }
     
 </script>
+
+<script>
+
+    var daily_female = <?php echo $daily_female; ?>;
+    var daily_male = <?php echo $daily_male; ?>;
+
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "", { role: "style" } ],
+        ["Female", daily_female, "red"],
+        ["Male", daily_male, "blue"],
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "",
+        width: 400,
+        height: 200,
+        bar: {groupWidth: "50%"},
+        legend: { position: 'none' },
+        backgroundColor: 'none',
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_daily_gender"));
+      chart.draw(view, options);
+  }
+    
+</script>
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Testing', 'Testing'],
+          ['2004',  1000,      400],
+          ['2005',  110070,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+            title: '',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            backgroundColor: 'none',
+            width: "100%",
+            height: 400,
+            chartArea:{
+                left:100,
+                right:50,
+                bottom:40,
+                top:20,
+                width:"100%",
+                height:"100%"
+            }
+                        
+          
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 
 @endsection
 

@@ -272,6 +272,7 @@ class PatientsController extends Controller
         return view('patients.superior',compact('research', 'done_full', 'finish', 'patients','fullUser', 'dataentry', 'basic', 'datatechnical', 'fullinterview'));
     }
  
+    //View Report Admin
     public function settingReport(){ 
 
         // alpha 280, beta 281, gamma 282, delta 283
@@ -341,12 +342,18 @@ class PatientsController extends Controller
         $data_bar_chart_past_day_all = [$data_bar_chart_past_day_3, $data_bar_chart_past_day_2, $data_bar_chart_past_day_1];
 
        
-       foreach($variants as $variant)
-       {
-           $list_variants[] = $variant->value;
-       }
-       
-        return view('report.general-report',compact('data_bar_chart_past_day_0', 'patient_all', 'list_variants', 'patient_daily', 'patient_death_all', 'patient_death_daily', 'data_bar_chart_past_day_all'));
+        foreach($variants as $variant)
+        {
+            $list_variants[] = $variant->value;
+        }
+
+        $gender = CommonCode::commonCode('gender')->first()->children;
+        $total_female = Patient::where('gender', 37)->count();
+        $total_male = Patient::where('gender', 36)->count();
+        $daily_female = Patient::whereDate('created_at', $currentDate->format('Y-m-d'))->where('gender', 37)->count();
+        $daily_male = Patient::whereDate('created_at', $currentDate->format('Y-m-d'))->where('gender', 36)->count();
+
+        return view('report.general-report',compact('daily_female','daily_male','total_female', 'total_male','data_bar_chart_past_day_0', 'patient_all', 'list_variants', 'patient_daily', 'patient_death_all', 'patient_death_daily', 'data_bar_chart_past_day_all'));
     } 
 
     public function approveFullInterivew($patient_id) 
